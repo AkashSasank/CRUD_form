@@ -4,9 +4,11 @@ function AddAChild () {
     var name =  document.getElementById("name").value
     var DoB =  document.getElementById("dob").value
     var phone =  document.getElementById("phone").value
-   
-        container.innerHTML += " <tr><td>"+id+"</td><td>"+name+"</td><td>"+DoB+"</td><td>"+phone+"</td></tr>";
+   if(name && id){
+    container.innerHTML += " <tr><td>"+id+"</td><td>"+name+"</td><td>"+DoB+"</td><td>"+phone+"</td></tr>";
  
+   }
+       
 }
 function StoreTable(){
     var container = document.getElementById ("table");

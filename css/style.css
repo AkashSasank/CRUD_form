@@ -63,4 +63,5 @@ table, th{
     height: auto;
     display: flex;
     flex-wrap: nowrap;
+    padding: 5%;
   }

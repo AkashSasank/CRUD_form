@@ -127,9 +127,9 @@ header img:hover {
     transition: 0.5s;
    
 }
-header img{
-    max-width: 100px;   
-}
+.logo{
+    max-width: 200px;
+  }
 nav {
     margin: 5% 5%;
 }
