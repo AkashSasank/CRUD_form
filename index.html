@@ -4,13 +4,13 @@
         <title>table</title>
         <link href="css/reset.css" type="text/css" rel="stylesheet">
         <link href="css/style.css" type="text/css" rel="stylesheet">
-        <script type="text/javascript" src="./JS/script.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="./JS/script.js"></script>
         <meta charset="UTF-8">
         <meta name = "view-point" content=" width = device-width, initial-scale=1, maximum-scale=1"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-       
     </head>
-        <body onload="LoadTable()" onunload="StoreTable()">
+        <body onload="loadTable()">
             <header>
                     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin:24px 0;">
                             <a class="navbar-brand" href="javascript:void(0)"><img src="./images/qb_logo.png" class="logo"></a>
@@ -31,54 +31,66 @@
                                 </li>
                               </ul>
                               <form class="form-inline my-2 my-lg-0">
-                                <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                                <button class="btn btn-success my-2 my-sm-0" type="button">Search</button>
+                                <input class="form-control mr-sm-2" type="text" placeholder="Search" id="search">
+                                <button class="btn btn-success my-2 my-sm-0" type="button" onclick="searchTable()">Search</button>
                               </form>
                             </div>
                           </nav>
-
             </header>
-           
             <section>
-                    <div class="input_field">
-                        <form>
-                                <input type="number" id="ID" required placeholder="Student ID">
-                                <input type="text" id="name" required placeholder="Name">
-                                <input type="date" id="dob" required>
-                                <input type="tel" id="phone" required placeholder="Phone">
-                                <input type="button" onclick=" AddAChild () " value="Submit">   
-                        </form>
-                      
-                           
-                </div>    
-                <div>
-                    <div class="table_head">
-                        <div class="head">
-                                <h2> ID</h2>
+                    <div class="input_field" >
+                        <form class="form-inline" id="form_input" method ="post" action="">
+              
+                                <label for="ID">Student ID:</label>
+                                <input name="id" type="number" id="ID" >
+                                <label for="name">Name:</label>
+                                <input name="name" type="text" id="name" >
+                                <label for="dob">Date of Birth:</label>
+                                <input name="dob" type="date" id="dob" >
+                                <label for="phone">Phone No:</label>
+                                <input name="phone" type="tel" id="phone" >
+                                <label  for="Email">Email:</label>
+                                <input name="email" type="email" id="Email">
+                                <input type="submit" onclick="readForm()" value="Submit"> 
+                             
+                        </form>          
+                    </div>    
+                    <div>
+                        <div class="table_head">
+                            <div class="head">
+                                    <h2> ID</h2>
+                            </div>
+                            <div class="head">
+                                    <h2>Name</h2>
+                            </div>
+                            <div class="head">
+                                    <h2>Date of Birth</h2>
+                            </div>
+                            <div class="head">
+                                    <h2>Phone</h2>
+                            </div>
+                            <div class="head">
+                                <h2>Email</h2>
+                            </div>
                         </div>
-                        <div class="head">
-                                <h2>Name</h2>
-                        </div>
-                        <div class="head">
-                                <h2>Date of Birth</h2>
-                        </div>
-                        <div class="head">
-                                <h2>Phone</h2>
-                        </div>
+                        <div class="table" >    
+                                    <table id="table1">
+        
+                            
+                                    </table>
+                        </div>  
+                    </div> 
+                    <h1>Search output</h1>
+                    <div id="search_out" class="table2">
+                        <table id="table2">
+        
+                            
+                          </table>                       
                     </div>
-                    <div class="table">    
-                                <table id="table">
-    
-                        
-                                </table>
-                    </div>  
-                </div> 
             </section>
             <div>
               <button class="btn btn-success my-2 my-sm-0" type="button" onclick="DeleteData()">Clear Table</button>
             </div>
-             
-              
-        </body>
+        </body>    
 </html>
 
