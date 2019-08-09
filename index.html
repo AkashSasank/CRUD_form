@@ -32,7 +32,7 @@
                               </ul>
                               <form class="form-inline my-2 my-lg-0">
                                 <input class="form-control mr-sm-2" type="text" placeholder="Search" id="search">
-                                <button class="btn btn-success my-2 my-sm-0" type="button" onclick="searchTable()">Search</button>
+                                <button class="btn btn-success my-2 my-sm-0" type="button" onclick="searchOutput()">Search</button>
                               </form>
                             </div>
                           </nav>
@@ -51,7 +51,7 @@
                                 <input name="phone" type="tel" id="phone" >
                                 <label  for="Email">Email:</label>
                                 <input name="email" type="email" id="Email">
-                                <input type="submit" onclick="readForm()" value="Submit"> 
+                                <input type="submit" onclick="readForm()" value="Submit" id = "submitButton"> 
                              
                         </form>          
                     </div>    
@@ -90,6 +90,7 @@
             </section>
             <div>
               <button class="btn btn-success my-2 my-sm-0" type="button" onclick="DeleteData()">Clear Table</button>
+              <button class="btn btn-success my-2 my-sm-0" type="button" onclick="editTable()" >Edit data</button>
             </div>
         </body>    
 </html>
