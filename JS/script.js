@@ -18,20 +18,13 @@ function loadTable(){
     var container = document.getElementById ("table1");
     let tableData = JSON.parse(localStorage.getItem("table_data"));
     for(let employee = 0;employee < tableData.length;employee++){
-        let row = document.createElement('tr');
-        let col1 =  document.createElement('td');
-        let col2 =  document.createElement('td');
-        let col3 =  document.createElement('td');
-        let col4 =  document.createElement('td');
-        let col5 =  document.createElement('td');
-        console.log(employee);
-        const newRow = container.appendChild(row);
         const data = tableData[employee];
-        newRow.appendChild(col1).innerHTML = data[0].value;
-        newRow.appendChild(col2).innerHTML = data[1].value;
-        newRow.appendChild(col3).innerHTML = data[2].value;
-        newRow.appendChild(col4).innerHTML = data[3].value;
-        newRow.appendChild(col5).innerHTML = data[4].value;
+        let row = document.createElement('tr');
+        let newRow = container.appendChild(row);
+        for(let i =0;i<=4;i++){
+          let col =  document.createElement('td');
+          newRow.appendChild(col).innerHTML= data[i].value;
+        }
     }
     addRowHandlers();
 }
@@ -53,19 +46,13 @@ function searchTable(){
         alert("Oops! no result")
     }
     if(index !== null){
-        let row = document.createElement('tr');
-        let col1 =  document.createElement('td');
-        let col2 =  document.createElement('td');
-        let col3 =  document.createElement('td');
-        let col4 =  document.createElement('td');
-        let col5 =  document.createElement('td');
-        const newRow = container.appendChild(row);
         const data = tableData[index];
-        newRow.appendChild(col1).innerHTML = data[0].value;
-        newRow.appendChild(col2).innerHTML = data[1].value;
-        newRow.appendChild(col3).innerHTML = data[2].value;
-        newRow.appendChild(col4).innerHTML = data[3].value;
-        newRow.appendChild(col5).innerHTML = data[4].value;
+        let row = document.createElement('tr');
+        let newRow = container.appendChild(row);
+        for(let i =0;i<=4;i++){
+          let col =  document.createElement('td');
+          newRow.appendChild(col).innerHTML= data[i].value;
+        }
     }
 }
 function DeleteData(){
