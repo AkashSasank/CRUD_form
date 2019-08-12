@@ -10,7 +10,7 @@
         <meta name = "view-point" content=" width = device-width, initial-scale=1, maximum-scale=1"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     </head>
-        <body onload="loadTable()">
+        <body onload="init()">
             <header>
                     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin:24px 0;">
                             <a class="navbar-brand" href="javascript:void(0)"><img src="./images/qb_logo.png" class="logo"></a>
@@ -54,7 +54,8 @@
                                 <input type="submit" onclick="readForm()" value="Submit" id = "submitButton"> 
                              
                         </form>          
-                    </div>    
+                    </div> 
+                       
                     <div>
                         <div class="table_head">
                             <div class="head">
@@ -80,12 +81,19 @@
                                     </table>
                         </div>  
                     </div> 
-                    <h1>Search output</h1>
+                    
                     <div id="search_out" class="table2">
-                        <table id="table2">
+                   
+                          <h1>Search output</h1>
+               
+                   
+                     
+                            <table id="table2">
         
                             
-                          </table>                       
+                              </table>  
+                      
+                                            
                     </div>
             </section>
             <div>
