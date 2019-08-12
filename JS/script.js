@@ -22,7 +22,8 @@ function loadTable(){
     var container = document.getElementById ("table1");
     container.innerHTML = '';
     let tableData = JSON.parse(localStorage.getItem("table_data"));
-    for(let employee = 0;employee < tableData.length;employee++){
+    if (tableData!== null){
+      for(let employee = 0;employee < tableData.length;employee++){
         const data = tableData[employee];
         let row = document.createElement('tr');
         let newRow = container.appendChild(row);
@@ -31,6 +32,8 @@ function loadTable(){
           newRow.appendChild(col).innerHTML= data[i].value;
         }
     }
+    }
+    
 }
 function searchOutput(){
   var container = document.getElementById ("table2");
@@ -69,12 +72,14 @@ function searchTable(searchInput,tableData,outputTableID){
 function createRow(data,container){
     let row = document.createElement('tr');
     let newRow = container.appendChild(row);
+    newRow.setAttribute("data-toggle","modal");
+    newRow.setAttribute("data-target","#myModal");
     for(let i =0;i<=4;i++){
       let col =  document.createElement('td');
       newRow.appendChild(col).innerHTML= data[i].value;
     }
 }
-function DeleteData(){
+function deleteData(){
     localStorage.clear();
     var container = document.getElementById ("table1");
     container.innerHTML = '';
@@ -82,11 +87,8 @@ function DeleteData(){
     container.innerHTML = '';
 }
 
-function editTable(){
-  let input = prompt("Enter any key-word");
-  alert("edit the data in edit window");
+function editTable(index){
   let tableData = JSON.parse(localStorage.getItem("table_data"));
-  let index = searchTable(input,tableData,null);
   let currentRow = tableData[index];
   document.getElementById("ID").value = currentRow[0].value;
   document.getElementById("name").value = currentRow[1].value;
@@ -106,20 +108,33 @@ function updateTable(index){
   loadTable();
   document.getElementById("submitButton").setAttribute("onclick","readForm()");
 }
-
+function deleteRow(index){
+  let tableData = JSON.parse(localStorage.getItem("table_data"));
+  tableData.splice(index,1);
+  let newData = JSON.stringify(tableData);
+  localStorage.setItem("table_data",newData);
+  loadTable();
+}
 function addRowHandlers() {
     var table = document.getElementById("table1");
     var rows = table.getElementsByTagName("tr");
     for (i = 0; i < rows.length; i++) {
       var currentRow = table.rows[i];
-      var createClickHandler = function(row) {
+      var createClickHandler = function(row,index) {
         return function() {
-          var cell = row.getElementsByTagName("td")[0];
-          var id = cell.innerHTML;
-          alert("id:" + id);
+          if(confirm("Do you want to edit the row?")){
+            editTable(index);
+          }
+          else{
+            if(confirm("Do you want to delete the row?")){
+              deleteRow(index);
+            }
+          }
+          
         };
       };
-      currentRow.onclick = createClickHandler(currentRow);
+      currentRow.onclick = createClickHandler(currentRow,i);
     }
   }
+
 
