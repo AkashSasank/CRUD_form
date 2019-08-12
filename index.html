@@ -20,14 +20,14 @@
                           
                             <div class="collapse navbar-collapse" id="navb">
                               <ul class="navbar-nav mr-auto">
-                                <li class="nav-item">
-                                  <a class="nav-link" href="javascript:void(0)">Home</a>
                                 </li>
                                 <li class="nav-item">
                                   <a class="nav-link" href="./gallery.html" target="_parent">Gallery</a>
                                 </li>
                                 <li class="nav-item">
-                                  <a class="nav-link" href="javascript:void(0)">Contact us</a>
+                                  <a class="nav-link" onclick="loadDatabase('student')">Student Portal</a>
+                                <li class="nav-item">
+                                  <a class="nav-link" onclick="loadDatabase('employee')">Employee Portal</a>
                                 </li>
                               </ul>
                               <form class="form-inline my-2 my-lg-0">
@@ -37,11 +37,11 @@
                             </div>
                           </nav>
             </header>
-            <section>
+            <section id ="portal">
                     <div class="input_field" >
-                        <form class="form-inline" id="form_input" method ="post" action="">
+                        <form class="form-inline" id="form_input" action="">
               
-                                <label for="ID">Student ID:</label>
+                                <label for="ID" id="id_label">Student ID:</label>
                                 <input name="id" type="number" id="ID" >
                                 <label for="name">Name:</label>
                                 <input name="name" type="text" id="name" >
@@ -51,7 +51,7 @@
                                 <input name="phone" type="tel" id="phone" >
                                 <label  for="Email">Email:</label>
                                 <input name="email" type="email" id="Email">
-                                <input type="submit" onclick="readForm()" value="Submit" id = "submitButton"> 
+                                <input type="button" onclick="readForm()" value="Submit" id = "submitButton"> 
                              
                         </form>          
                     </div> 

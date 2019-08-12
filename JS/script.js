@@ -1,27 +1,42 @@
+var database = "student_data";
+function loadDatabase(entity){
+  if(entity === 'student'){
+    database = "student_data";
+    document.getElementById("id_label").innerHTML = "Student ID";
+  }
+  else{
+    database = "employee_data";
+    document.getElementById("id_label").innerHTML = "Employee ID";
+  }
+  loadTable();
+}
 function init(){
   loadTable();//load table data from local storage
   document.getElementById("search_out").style.display = "none";//hide the search output div
-  addRowHandlers();
-}
+  document.getElementById("form_input").reset();
+  
+  }
 function readForm () {
     let formData = $(document.getElementById("form_input")).serializeArray();
     if(formData[0].value && formData[1].value){
         let storedData = null;
-        if(localStorage.getItem("table_data") === null){
+        if(localStorage.getItem(database) === null){
           storedData = [];
         }
         else{
-          storedData = JSON.parse(localStorage.getItem("table_data")); 
+          storedData = JSON.parse(localStorage.getItem(database)); 
         }
           storedData.unshift(formData);
           let newData = JSON.stringify(storedData);
-          localStorage.setItem("table_data",newData);
+          localStorage.setItem(database,newData);
     }  
+    document.getElementById("form_input").reset();
+    loadTable();
   }
 function loadTable(){
     var container = document.getElementById ("table1");
     container.innerHTML = '';
-    let tableData = JSON.parse(localStorage.getItem("table_data"));
+    let tableData = JSON.parse(localStorage.getItem(database));
     if (tableData!== null){
       for(let employee = 0;employee < tableData.length;employee++){
         const data = tableData[employee];
@@ -32,12 +47,13 @@ function loadTable(){
           newRow.appendChild(col).innerHTML= data[i].value;
         }
     }
+    addRowHandlers();
     }
     
 }
 function searchOutput(){
   var container = document.getElementById ("table2");
-  let tableData = JSON.parse(localStorage.getItem("table_data"));
+  let tableData = JSON.parse(localStorage.getItem(database));
   let searchInput = document.getElementById("search").value;
   let index = searchTable(searchInput,tableData,"table2"); 
   if(index == null){
@@ -72,8 +88,6 @@ function searchTable(searchInput,tableData,outputTableID){
 function createRow(data,container){
     let row = document.createElement('tr');
     let newRow = container.appendChild(row);
-    newRow.setAttribute("data-toggle","modal");
-    newRow.setAttribute("data-target","#myModal");
     for(let i =0;i<=4;i++){
       let col =  document.createElement('td');
       newRow.appendChild(col).innerHTML= data[i].value;
@@ -88,7 +102,7 @@ function deleteData(){
 }
 
 function editTable(index){
-  let tableData = JSON.parse(localStorage.getItem("table_data"));
+  let tableData = JSON.parse(localStorage.getItem(database));
   let currentRow = tableData[index];
   document.getElementById("ID").value = currentRow[0].value;
   document.getElementById("name").value = currentRow[1].value;
@@ -101,20 +115,23 @@ function editTable(index){
 }
 function updateTable(index){
   let formData = $(document.getElementById("form_input")).serializeArray();
-  let tableData = JSON.parse(localStorage.getItem("table_data"));
+  let tableData = JSON.parse(localStorage.getItem(database));
   tableData[index]=formData;
   let newData = JSON.stringify(tableData);
-  localStorage.setItem("table_data",newData);
+  localStorage.setItem(database,newData);
   loadTable();
   document.getElementById("submitButton").setAttribute("onclick","readForm()");
+  document.getElementById("form_input").reset();
 }
+//To delete a row of given index
 function deleteRow(index){
-  let tableData = JSON.parse(localStorage.getItem("table_data"));
+  let tableData = JSON.parse(localStorage.getItem(database));
   tableData.splice(index,1);
   let newData = JSON.stringify(tableData);
-  localStorage.setItem("table_data",newData);
+  localStorage.setItem(database,newData);
   loadTable();
 }
+//To detect a click on a given row
 function addRowHandlers() {
     var table = document.getElementById("table1");
     var rows = table.getElementsByTagName("tr");
@@ -136,5 +153,5 @@ function addRowHandlers() {
       currentRow.onclick = createClickHandler(currentRow,i);
     }
   }
-
+ 
 
