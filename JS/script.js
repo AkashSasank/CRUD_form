@@ -14,7 +14,6 @@ function init(){
   loadTable();//load table data from local storage
   document.getElementById("search_out").style.display = "none";//hide the search output div
   document.getElementById("form_input").reset();
-  
   }
 function readForm () {
     let formData = $(document.getElementById("form_input")).serializeArray();
@@ -48,8 +47,7 @@ function loadTable(){
         }
     }
     addRowHandlers();
-    }
-    
+    } 
 }
 function searchOutput(){
   var container = document.getElementById ("table2");
@@ -60,8 +58,11 @@ function searchOutput(){
       alert("Oops! no result")
   }
   if(index !== null){
-      const data = tableData[index];
+    for(let i = 0;i<index.length;i++){
+      const data = tableData[i];
       createRow(data,container);
+    }
+   
   }
   document.getElementById("search_out").style.display = "block";//show the search output div
   document.getElementById("search_out").onclick = function(){
@@ -74,12 +75,11 @@ function searchTable(searchInput,tableData,outputTableID){
       var container = document.getElementById (outputTableID);
       container.innerHTML = '';
     }
-    var index = null;
+    var index = [];
     for(let i = 0;i < tableData.length;i++){
         for(let j = 0;j < tableData[i].length;j++){
             if(tableData[i][j].value === searchInput){
-                index = i;
-                break;
+                index.push(i);
             }
         }
     }
