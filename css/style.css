@@ -29,7 +29,8 @@ table, th{
   }
   td{
     border: 1px solid black;
-    max-width: 50px;;
+    max-width: 50px;
+    width: 50px;
     text-align: center;
   }
   th ,tr {
