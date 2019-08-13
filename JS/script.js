@@ -35,7 +35,7 @@ function readForm () {
 function loadTable(array){
     var container = document.getElementById ("table1");
     container.innerHTML = '';
-    let tableData = null;
+    let tableData;
     if (array === undefined){
       tableData = JSON.parse(localStorage.getItem(database));
     }
@@ -116,9 +116,15 @@ function editTable(index){
   document.getElementById("dob").value = currentRow[2].value;
   document.getElementById("phone").value = currentRow[3].value;
   document.getElementById("Email").value = currentRow[4].value;
-  document.getElementById("submitButton").onclick = function(){
-  updateTable(index);
-  };
+  if(document.getElementById("ID").value && document.getElementById("name").value){
+    document.getElementById("submitButton").onclick = function(){
+      updateTable(index);
+      document.getElementById("form_input").reset();
+      document.getElementById("submitButton").setAttribute("onclick",null);
+      document.getElementById("submitButton").setAttribute("onclick","readForm()");
+      loadTable();
+      };
+  }  
 }
 function updateTable(index){
   let formData = $(document.getElementById("form_input")).serializeArray();
@@ -126,9 +132,6 @@ function updateTable(index){
   tableData[index]=formData;
   let newData = JSON.stringify(tableData);
   localStorage.setItem(database,newData);
-  loadTable();
-  document.getElementById("submitButton").setAttribute("onclick","readForm()");
-  document.getElementById("form_input").reset();
 }
 //To delete a row of given index
 function deleteRow(index){
