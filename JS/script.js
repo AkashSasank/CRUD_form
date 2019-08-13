@@ -1,12 +1,12 @@
-var database = "student_data";
+var database = "student_data";//default database in local storage
 function loadDatabase(entity){
   if(entity === 'student'){
     database = "student_data";
-    document.getElementById("id_label").innerHTML = "Student ID";
+    document.getElementById("id_label").innerHTML = "Student ID:";
   }
   else{
     database = "employee_data";
-    document.getElementById("id_label").innerHTML = "Employee ID";
+    document.getElementById("id_label").innerHTML = "Employee ID:";
   }
   loadTable();
 }
@@ -32,10 +32,16 @@ function readForm () {
     document.getElementById("form_input").reset();
     loadTable();
   }
-function loadTable(){
+function loadTable(array){
     var container = document.getElementById ("table1");
     container.innerHTML = '';
-    let tableData = JSON.parse(localStorage.getItem(database));
+    let tableData = null;
+    if (array === undefined){
+      tableData = JSON.parse(localStorage.getItem(database));
+    }
+    else{
+      tableData = array;
+    }
     if (tableData!== null){
       for(let employee = 0;employee < tableData.length;employee++){
         const data = tableData[employee];
@@ -54,19 +60,19 @@ function searchOutput(){
   let tableData = JSON.parse(localStorage.getItem(database));
   let searchInput = document.getElementById("search").value;
   let index = searchTable(searchInput,tableData,"table2"); 
-  if(index == null){
+  if(index === null){
       alert("Oops! no result")
   }
-  if(index !== null){
+  else{
     for(let i = 0;i<index.length;i++){
       const data = tableData[i];
       createRow(data,container);
+      document.getElementById("search_out").style.display = "block";//show the search output div
+      document.getElementById("search_out").onclick = function(){
+        document.getElementById("search_out").style.display = "none";//show the search output div
     }
    
   }
-  document.getElementById("search_out").style.display = "block";//show the search output div
-  document.getElementById("search_out").onclick = function(){
-    document.getElementById("search_out").style.display = "none";//show the search output div
   }
 
 }
@@ -83,6 +89,7 @@ function searchTable(searchInput,tableData,outputTableID){
             }
         }
     }
+    document.getElementById("searchWindow").reset();
     return index;
   }
 function createRow(data,container){
@@ -135,7 +142,7 @@ function deleteRow(index){
 function addRowHandlers() {
     var table = document.getElementById("table1");
     var rows = table.getElementsByTagName("tr");
-    for (i = 0; i < rows.length; i++) {
+    for (let i = 0; i < rows.length; i++) {
       var currentRow = table.rows[i];
       var createClickHandler = function(row,index) {
         return function() {
@@ -152,6 +159,25 @@ function addRowHandlers() {
       };
       currentRow.onclick = createClickHandler(currentRow,i);
     }
+  }
+  //Sort each field in table by clicking on corresponding table heading
+  function sortData(field){
+    let tableData = JSON.parse(localStorage.getItem(database));
+    let data = []; 
+    let index = [];   
+    for(let i = 0;i<tableData.length;i++){
+      data.push([tableData[i][field].value,i]);
+    }
+    let sortedData = data.sort();
+    for( i =0;i<tableData.length;i++){
+      index.push(sortedData[i][1]);
+    }
+    let newData = [];
+    for( i =0 ; i<tableData.length ; i++){
+      newData.push(tableData[index[i]]);
+    }
+   loadTable(newData);
+   localStorage.setItem(database,JSON.stringify(newData));
   }
  
 

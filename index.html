@@ -30,7 +30,7 @@
                                   <a class="nav-link" onclick="loadDatabase('employee')">Employee Portal</a>
                                 </li>
                               </ul>
-                              <form class="form-inline my-2 my-lg-0">
+                              <form class="form-inline my-2 my-lg-0" id = "searchWindow">
                                 <input class="form-control mr-sm-2" type="text" placeholder="Search" id="search">
                                 <button class="btn btn-success my-2 my-sm-0" type="button" onclick="searchOutput()">Search</button>
                               </form>
@@ -58,19 +58,19 @@
                        
                     <div>
                         <div class="table_head">
-                            <div class="head">
+                            <div class="head" onclick="sortData(0)">
                                     <h2> ID</h2>
                             </div>
-                            <div class="head">
+                            <div class="head" onclick="sortData(1)">
                                     <h2>Name</h2>
                             </div>
-                            <div class="head">
+                            <div class="head" onclick="sortData(2)">
                                     <h2>Date of Birth</h2>
                             </div>
-                            <div class="head">
+                            <div class="head" onclick="sortData(3)">
                                     <h2>Phone</h2>
                             </div>
-                            <div class="head">
+                            <div class="head" onclick="sortData(4)">
                                 <h2>Email</h2>
                             </div>
                         </div>
