@@ -51,6 +51,9 @@ function loadTable(array){
           let col =  document.createElement('td');
           newRow.appendChild(col).innerHTML= data[i].value;
         }
+        tableData.forEach((value, index) => {
+          console.log(value, index)
+        })
     }
     addRowHandlers();
     } 
