@@ -15,9 +15,39 @@ function init(){
   document.getElementById("search_out").style.display = "none";//hide the search output div
   document.getElementById("form_input").reset();
   }
+
+function check(myform){
+ if (myform[0].value == "" || myform[0].value == null)
+ {
+   alert("Enter a valid ID");
+   return false;
+ }
+ if (myform[1].value == "" || myform[1].value == null)
+ {
+   alert("Name is mandatory");
+   return false;
+ }
+ var nameRegex = /^[a-zA-Z]+$/;
+ if (nameRegex.test(myform[1].value) === false)
+ {
+   alert("Enter a valid name");
+   return false;
+ }
+ var emailRegex = /^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+([;.](([a-zA-Z0-9_\-\.]+)@{[a-zA-Z0-9_\-\.]+0\.([a-zA-Z]{2,5}){1,25})+)*$/;
+ if ( emailRegex.test(myform[4].value)===false)
+ {
+   alert("Enter a valid email");
+   return false;
+ }
+    else{
+      return true;
+    }
+  }
 function readForm () {
     let formData = $(document.getElementById("form_input")).serializeArray();
-    if(formData[0].value && formData[1].value){
+
+    if(check(formData)){
+        document.getElementById("form_input").reset();
         let storedData = null;
         if(localStorage.getItem(database) === null){
           storedData = [];
@@ -29,7 +59,7 @@ function readForm () {
           let newData = JSON.stringify(storedData);
           localStorage.setItem(database,newData);
     }  
-    document.getElementById("form_input").reset();
+    
     loadTable();
   }
 function loadTable(array){
@@ -122,7 +152,6 @@ function editTable(index){
   if(document.getElementById("ID").value && document.getElementById("name").value){
     document.getElementById("submitButton").onclick = function(){
       updateTable(index);
-      document.getElementById("form_input").reset();
       document.getElementById("submitButton").setAttribute("onclick",null);
       document.getElementById("submitButton").setAttribute("onclick","readForm()");
       loadTable();
@@ -131,10 +160,13 @@ function editTable(index){
 }
 function updateTable(index){
   let formData = $(document.getElementById("form_input")).serializeArray();
-  let tableData = JSON.parse(localStorage.getItem(database));
-  tableData[index]=formData;
-  let newData = JSON.stringify(tableData);
-  localStorage.setItem(database,newData);
+  if(check(formData)){
+    let tableData = JSON.parse(localStorage.getItem(database));
+    tableData[index]=formData;
+    document.getElementById("form_input").reset();
+    let newData = JSON.stringify(tableData);
+    localStorage.setItem(database,newData);
+  }  
 }
 //To delete a row of given index
 function deleteRow(index){
