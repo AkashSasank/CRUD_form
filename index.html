@@ -9,6 +9,9 @@
         <meta charset="UTF-8">
         <meta name = "view-point" content=" width = device-width, initial-scale=1, maximum-scale=1"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     </head>
         <body onload="init()">
             <header>
@@ -37,6 +40,7 @@
                             </div>
                           </nav>
             </header>
+          
             <section id ="portal">
                     <div class="input_field" >
                         <form class="form-inline" id="form_input" action="">
@@ -55,7 +59,23 @@
                              
                         </form>          
                     </div> 
-                       
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-cont">
+    <div>
+        <button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></button>
+    </div>
+    <div>
+        <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></button>
+    </div>
+    <div>
+        <button type="button" class="btn  btn-info"><span class="glyphicon glyphicon-remove"></span></button>
+    </div>
+  </div>
+
+</div>
                     <div>
                         <div class="table_head">
                             <div class="head" onclick="sortData(0)">

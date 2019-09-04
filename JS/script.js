@@ -1,4 +1,5 @@
 var database = "student_data";//default database in local storage
+const num_fields = 5;
 function loadDatabase(entity){
   if(entity === 'student'){
     database = "student_data";
@@ -102,12 +103,10 @@ function searchOutput(){
       createRow(data,container);
       document.getElementById("search_out").style.display = "block";//show the search output div
       document.getElementById("search_out").onclick = function(){
-        document.getElementById("search_out").style.display = "none";//show the search output div
+      document.getElementById("search_out").style.display = "none";//show the search output div
     }
-   
   }
   }
-
 }
 function searchTable(searchInput,tableData,outputTableID){
     if(outputTableID!== null){
@@ -128,7 +127,7 @@ function searchTable(searchInput,tableData,outputTableID){
 function createRow(data,container){
     let row = document.createElement('tr');
     let newRow = container.appendChild(row);
-    for(let i =0;i<=4;i++){
+    for(let i =0;i<=num_fields-1;i++){
       let col =  document.createElement('td');
       newRow.appendChild(col).innerHTML= data[i].value;
     }
@@ -140,7 +139,6 @@ function deleteData(){
     var container = document.getElementById ("table2");
     container.innerHTML = '';
 }
-
 function editTable(index){
   let tableData = JSON.parse(localStorage.getItem(database));
   let currentRow = tableData[index];
@@ -184,22 +182,39 @@ function addRowHandlers() {
       var currentRow = table.rows[i];
       var createClickHandler = function(row,index) {
         return function() {
-          if(confirm("Do you want to edit the row?")){
-            editTable(index);
-          }
-          else{
+          let modal =  document.getElementById('myModal');
+          var edit = document.getElementsByClassName("btn")[1];  
+          var del = document.getElementsByClassName("btn")[2];
+          var close = document.getElementsByClassName("btn")[3];
+          modal.style.display = "block";    
+          edit.onclick = function() {
+            if(confirm("Do you want to edit the row?")){
+                editTable(index);
+                modal.style.display = "none";
+              }
+          }            
+          del.onclick = function() {
             if(confirm("Do you want to delete the row?")){
-              deleteRow(index);
+                  deleteRow(index);
+                  modal.style.display = "none";
+                }
+          }
+          close.onclick = function() {
+            modal.style.display = "none";
+          }
+          // When the user clicks anywhere outside of the modal, close it
+          window.onclick = function(event) {
+            if (event.target == modal) {
+              modal.style.display = "none";
             }
           }
-          
         };
       };
       currentRow.onclick = createClickHandler(currentRow,i);
     }
   }
   //Sort each field in table by clicking on corresponding table heading
-  function sortData(field){
+function sortData(field){
     let tableData = JSON.parse(localStorage.getItem(database));
     let data = []; 
     let index = [];   
