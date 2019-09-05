@@ -4,10 +4,12 @@ function loadDatabase(entity){
   if(entity === 'student'){
     database = "student_data";
     document.getElementById("id_label").innerHTML = "Student ID:";
+    document.getElementById("form_name").innerHTML = "Student Portal"
   }
   else{
     database = "employee_data";
     document.getElementById("id_label").innerHTML = "Employee ID:";
+    document.getElementById("form_name").innerHTML = "Employee Portal"
   }
   loadTable();
 }
@@ -40,13 +42,18 @@ function check(myform){
    alert("Enter a valid email");
    return false;
  }
+ var contactRegex = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
+ if(contactRegex.test(myform[3].value)===false){
+  alert("Enter a valid contact number");
+  return false;
+
+ }
     else{
       return true;
     }
   }
 function readForm () {
     let formData = $(document.getElementById("form_input")).serializeArray();
-
     if(check(formData)){
         document.getElementById("form_input").reset();
         let storedData = null;
@@ -59,35 +66,42 @@ function readForm () {
           storedData.unshift(formData);
           let newData = JSON.stringify(storedData);
           localStorage.setItem(database,newData);
-    }  
-    
+    }    
     loadTable();
   }
 function loadTable(array){
     var container = document.getElementById ("table1");
     container.innerHTML = '';
-    let tableData;
-    if (array === undefined){
-      tableData = JSON.parse(localStorage.getItem(database));
+    let tableData = JSON.parse(localStorage.getItem(database));
+    console.log(tableData.length)
+    if(tableData.length === 0 ){
+      document.getElementById ("main-table").style.display = "none";//hide the search output div
     }
     else{
-      tableData = array;
+      document.getElementById ("main-table").style.display = "block";//hide the search output div
+      if(array !== undefined){
+        tableData = array;
+        
+      }
+      if (tableData!== null){
+        for(let employee = 0;employee < tableData.length;employee++){
+          const data = tableData[employee];
+          let row = document.createElement('tr');
+          let newRow = container.appendChild(row);
+          for(let i =0;i<=4;i++){
+            let col =  document.createElement('td');
+            newRow.appendChild(col).innerHTML= data[i].value;
+          }
+          tableData.forEach((value, index) => {
+            console.log(value, index)
+          })
+      }
+      addRowHandlers();
+      }
+      
+     
     }
-    if (tableData!== null){
-      for(let employee = 0;employee < tableData.length;employee++){
-        const data = tableData[employee];
-        let row = document.createElement('tr');
-        let newRow = container.appendChild(row);
-        for(let i =0;i<=4;i++){
-          let col =  document.createElement('td');
-          newRow.appendChild(col).innerHTML= data[i].value;
-        }
-        tableData.forEach((value, index) => {
-          console.log(value, index)
-        })
-    }
-    addRowHandlers();
-    } 
+    
 }
 function searchOutput(){
   var container = document.getElementById ("table2");
@@ -103,7 +117,7 @@ function searchOutput(){
       createRow(data,container);
       document.getElementById("search_out").style.display = "block";//show the search output div
       document.getElementById("search_out").onclick = function(){
-      document.getElementById("search_out").style.display = "none";//show the search output div
+      document.getElementById("search_out").style.display = "none";//hide the search output div
     }
   }
   }
@@ -147,14 +161,15 @@ function editTable(index){
   document.getElementById("dob").value = currentRow[2].value;
   document.getElementById("phone").value = currentRow[3].value;
   document.getElementById("Email").value = currentRow[4].value;
-  if(document.getElementById("ID").value && document.getElementById("name").value){
+
     document.getElementById("submitButton").onclick = function(){
-      updateTable(index);
-      document.getElementById("submitButton").setAttribute("onclick",null);
-      document.getElementById("submitButton").setAttribute("onclick","readForm()");
-      loadTable();
-      };
-  }  
+      let status = updateTable(index);
+      if(status){
+        document.getElementById("submitButton").setAttribute("onclick",null);
+        document.getElementById("submitButton").setAttribute("onclick","readForm()");
+        loadTable();
+      }
+      };  
 }
 function updateTable(index){
   let formData = $(document.getElementById("form_input")).serializeArray();
@@ -164,6 +179,7 @@ function updateTable(index){
     document.getElementById("form_input").reset();
     let newData = JSON.stringify(tableData);
     localStorage.setItem(database,newData);
+    return true;
   }  
 }
 //To delete a row of given index
@@ -188,13 +204,13 @@ function addRowHandlers() {
           var close = document.getElementsByClassName("btn")[3];
           modal.style.display = "block";    
           edit.onclick = function() {
-            if(confirm("Do you want to edit the row?")){
+            if(confirm("Do you want to continue?")){
                 editTable(index);
                 modal.style.display = "none";
               }
           }            
           del.onclick = function() {
-            if(confirm("Do you want to delete the row?")){
+            if(confirm("Data will be lost forever!! Do you want to continue? ")){
                   deleteRow(index);
                   modal.style.display = "none";
                 }
@@ -232,5 +248,6 @@ function sortData(field){
    loadTable(newData);
    localStorage.setItem(database,JSON.stringify(newData));
   }
+
  
 
