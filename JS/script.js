@@ -1,6 +1,8 @@
 var database = "student_data";//default database in local storage
 const num_fields = 5;
+let searchFlag = false;// to know an ongoing seach operation
 function loadDatabase(entity){
+  document.getElementById("form_input").reset();
   if(entity === 'student'){
     database = "student_data";
     document.getElementById("id_label").innerHTML = "Student ID:";
@@ -12,10 +14,11 @@ function loadDatabase(entity){
     document.getElementById("form_name").innerHTML = "Employee Portal"
   }
   loadTable();
+  return true;
 }
 function init(){
   loadTable();//load table data from local storage
-  document.getElementById("search_out").style.display = "none";//hide the search output div
+  // document.getElementById("search_out").style.display = "none";//hide the search output div
   document.getElementById("form_input").reset();
   }
 
@@ -70,6 +73,7 @@ function readForm () {
     loadTable();
   }
 function loadTable(array){
+    
     var container = document.getElementById ("table1");
     container.innerHTML = '';
     let tableData = JSON.parse(localStorage.getItem(database));
@@ -78,7 +82,7 @@ function loadTable(array){
       document.getElementById ("main-table").style.display = "none";//hide the search output div
     }
     else{
-      document.getElementById ("main-table").style.display = "block";//hide the search output div
+      document.getElementById ("main-table").style.display = "revert";//hide the search output div
       if(array !== undefined){
         tableData = array;
         
@@ -88,12 +92,17 @@ function loadTable(array){
           const data = tableData[employee];
           let row = document.createElement('tr');
           let newRow = container.appendChild(row);
-          for(let i =0;i<=4;i++){
+          for(let i =0;i<num_fields ;i++){
             let col =  document.createElement('td');
+            if(!isNaN(data[i].value)||!isNaN(data[i].value.split("-")[0])){
+              col.style.textAlign = "right";
+            }
             newRow.appendChild(col).innerHTML= data[i].value;
+            console.log(isNaN(data[i]))
           }
           tableData.forEach((value, index) => {
             console.log(value, index)
+            console.log(isNaN(value[0].value))
           })
       }
       addRowHandlers();
@@ -101,32 +110,47 @@ function loadTable(array){
       
      
     }
+    // resetForm();
     
 }
 function searchOutput(){
-  var container = document.getElementById ("table2");
-  let tableData = JSON.parse(localStorage.getItem(database));
+  searchFlag = true;
   let searchInput = document.getElementById("search").value;
-  let index = searchTable(searchInput,tableData,"table2"); 
-  if(index === null){
+  document.getElementById("searchWindow").reset();
+  // alert(searchInput)
+  let tableData = JSON.parse(localStorage.getItem(database));
+  let index = searchTable(searchInput,tableData); 
+  // alert(index[0])
+  if(tableData.length === 0){
+    alert("No records to search");  
+  }
+  else if(index.length === 0 && tableData.length !== 0){
       alert("Oops! no result")
   }
   else{
+    let searchOut = []
     for(let i = 0;i<index.length;i++){
-      const data = tableData[i];
-      createRow(data,container);
-      document.getElementById("search_out").style.display = "block";//show the search output div
-      document.getElementById("search_out").onclick = function(){
-      document.getElementById("search_out").style.display = "none";//hide the search output div
-    }
+      searchOut.unshift(tableData[index[i]]);
+    //   createRow(data,container);
+    //   document.getElementById("search_out").style.display = "block";//show the search output div
+    //   document.getElementById("search_out").onclick = function(){
+    //   document.getElementById("search_out").style.display = "none";//hide the search output div
+    // }
+    // var container = document.getElementById ("main-table");
+    // container.innerHTML = '';
+    loadTable(searchOut);
+    
   }
-  }
+  // window.onclick = function(event) {
+  //   document.reload();
+  //   }
 }
-function searchTable(searchInput,tableData,outputTableID){
-    if(outputTableID!== null){
-      var container = document.getElementById (outputTableID);
-      container.innerHTML = '';
-    }
+}
+function searchTable(searchInput,tableData){
+    // if(outputTableID!== null){
+    //   var container = document.getElementById (outputTableID);
+    //   container.innerHTML = '';
+    // }
     var index = [];
     for(let i = 0;i < tableData.length;i++){
         for(let j = 0;j < tableData[i].length;j++){
@@ -135,7 +159,7 @@ function searchTable(searchInput,tableData,outputTableID){
             }
         }
     }
-    document.getElementById("searchWindow").reset();
+    // document.getElementById("searchWindow").reset();
     return index;
   }
 function createRow(data,container){
@@ -154,6 +178,7 @@ function deleteData(){
     container.innerHTML = '';
 }
 function editTable(index){
+  
   let tableData = JSON.parse(localStorage.getItem(database));
   let currentRow = tableData[index];
   document.getElementById("ID").value = currentRow[0].value;
@@ -161,8 +186,10 @@ function editTable(index){
   document.getElementById("dob").value = currentRow[2].value;
   document.getElementById("phone").value = currentRow[3].value;
   document.getElementById("Email").value = currentRow[4].value;
-
+  
+ 
     document.getElementById("submitButton").onclick = function(){
+      
       let status = updateTable(index);
       if(status){
         document.getElementById("submitButton").setAttribute("onclick",null);
@@ -192,6 +219,7 @@ function deleteRow(index){
 }
 //To detect a click on a given row
 function addRowHandlers() {
+  if(!searchFlag){
     var table = document.getElementById("table1");
     var rows = table.getElementsByTagName("tr");
     for (let i = 0; i < rows.length; i++) {
@@ -199,9 +227,9 @@ function addRowHandlers() {
       var createClickHandler = function(row,index) {
         return function() {
           let modal =  document.getElementById('myModal');
-          var edit = document.getElementsByClassName("btn")[1];  
-          var del = document.getElementsByClassName("btn")[2];
-          var close = document.getElementsByClassName("btn")[3];
+          var edit = document.getElementsByClassName("btn")[0];  
+          var del = document.getElementsByClassName("btn")[1];
+          var close = document.getElementsByClassName("btn")[2];
           modal.style.display = "block";    
           edit.onclick = function() {
             if(confirm("Do you want to continue?")){
@@ -229,8 +257,10 @@ function addRowHandlers() {
       currentRow.onclick = createClickHandler(currentRow,i);
     }
   }
+
+  }
   //Sort each field in table by clicking on corresponding table heading
-function sortData(field){
+function sortData(field,type){
     let tableData = JSON.parse(localStorage.getItem(database));
     let data = []; 
     let index = [];   
@@ -242,11 +272,40 @@ function sortData(field){
       index.push(sortedData[i][1]);
     }
     let newData = [];
-    for( i =0 ; i<tableData.length ; i++){
-      newData.push(tableData[index[i]]);
+    if(type === 'ascending'){
+      for( i =0 ; i<tableData.length ; i++){
+        newData.push(tableData[index[i]]);
+      }
     }
+    else{
+      for( i =0 ; i<tableData.length ; i++){
+        newData.unshift(tableData[index[i]]);
+      } 
+    }
+   
    loadTable(newData);
    localStorage.setItem(database,JSON.stringify(newData));
+  }
+
+  function searchTable() {
+    searchFlag = true;
+    let input, filter, table, tr, td, i,j, txtValue;
+    input = document.getElementById("search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("main-table");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      for(j = 0;j<num_fields;j++)
+      td = tr[i].getElementsByTagName("td")[j];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
   }
 
  

@@ -7,7 +7,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="./JS/script.js"></script>
         <meta charset="UTF-8">
-        <meta name = "view-point" content=" width = device-width, initial-scale=1, maximum-scale=1"/>
+        <meta name = "view-point" content=" width = device-width, initial-scale=1"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -39,8 +39,8 @@
                             </ul>
                                 <div class="search-div">
                                     <form class="form-inline my-2 my-lg-0 justify-right" id = "searchWindow">
-                                        <input class="form-control mr-sm-2" type="text" placeholder="Search" id="search">
-                                        <button class="btn btn-success my-2 my-sm-0" type="button" onclick="searchOutput()">Search</button>
+                                        <input class="form-control mr-sm-2" type="text" placeholder="Search" id="search" onkeyup="searchTable()" >
+                                        <!-- <button class="btn btn-success my-2 my-sm-0" type="button" >Search</button> -->
                                       </form>
                                 </div>
                              
@@ -102,136 +102,99 @@
   </div>
 
 </div>
-                    <div>
-                        <!-- <div class="table_head">
-                            <div class="head row" onclick="sortData(0)">
-                                    <h2> ID</h2>
-                                    <div class="column">
-                                      <a href="">
-                                          <span class="glyphicon glyphicon-chevron-up"></span>
-                                      </a>
-                                        
-                                        <span class="glyphicon glyphicon-chevron-down"></span>
-                                    </div>
-                                   
-                            </div>
-                            <div class="head row" onclick="sortData(1)">
-                                    <h2>Name</h2>
-                                    <div class="column">
-                                        <span class="glyphicon glyphicon-chevron-up"></span>
-                                        <span class="glyphicon glyphicon-chevron-down"></span>
-                                    </div>
-                            </div>
-                            <div class="head row" onclick="sortData(2)">
-                                    <h2>Date of Birth</h2>
-                                    <div class="column">
-                                        <span class="glyphicon glyphicon-chevron-up"></span>
-                                        <span class="glyphicon glyphicon-chevron-down"></span>
-                                    </div>
-                            </div>
-                            <div class="head row" onclick="sortData(3)">
-                                    <h2>Phone</h2>
-                                    <div class="column">
-                                        <span class="glyphicon glyphicon-chevron-up"></span>
-                                        <span class="glyphicon glyphicon-chevron-down"></span>
-                                    </div>
-                            </div>
-                            <div class="head row" onclick="sortData(4)">
-                                <h2>Email</h2>
-                                <div class="column">
-                                    <span class="glyphicon glyphicon-chevron-up"></span>
-                                    <span class="glyphicon glyphicon-chevron-down"></span>
-                                </div>
-                            </div>
-                        </div> -->
-                        <div   id = "main-table">    
-                                    <table >
-                                      <thead>
-                                        <tr> 
-                                          <th>
-                                            <div class="row">
-                                                <h5>ID</h5>
-                                                <div class="column">
-                                                    <a href="#" onclick="sortData(0)">
-                                                    <span class="glyphicon glyphicon-chevron-up"></span>
-                                                  </a>
-                                                    <a href="#" onclick="sortData(0)">
-                                                    <span class="glyphicon glyphicon-chevron-down " ></span>
-                                                  </a>
-                                                </div>
-                                            </div>
-                                            
-                                          </th>
-                                           <th>
-                                              <div class="row">
-                                                  <h5>Name</h5>
-                                                  <div class="column">
-                                                      <a href="#" onclick="sortData(0)">
-                                                      <span class="glyphicon glyphicon-chevron-up"></span>
-                                                    </a>
-                                                      <a href="#" onclick="sortData(0)">
-                                                      <span class="glyphicon glyphicon-chevron-down" ></span>
-                                                    </a>
-                                                  </div>
-                                              </div>
-                                          </th>
-                                           <th>
-                                              <div class="row">
-                                                  <h5>DoB</h5>
-                                                  <div class="column">
-                                                      <a href="#" onclick="sortData(0)">
-                                                      <span class="glyphicon glyphicon-chevron-up"></span>
-                                                    </a>
-                                                      <a href="#" onclick="sortData(0)">
-                                                      <span class="glyphicon glyphicon-chevron-down" ></span>
-                                                    </a>
-                                                  </div>
-                                              </div>
-                                          </th>
-                                           <th>
-                                              <div class="row">
-                                                  <h5>Contact</h5>
-                                                  <div class="column">
-                                                      <a href="#" onclick="sortData(0)">
-                                                      <span class="glyphicon glyphicon-chevron-up"></span>
-                                                    </a>
-                                                      <a href="#" onclick="sortData(0)">
-                                                      <span class="glyphicon glyphicon-chevron-down" ></span>
-                                                    </a>
-                                                  </div>
-                                              </div>
-                                          </th>
-                                           <th>
-                                              <div class="row">
-                                                  <h5>Email</h5>
-                                                  <div class="column">
-                                                      <a href="#" onclick="sortData(0)">
-                                                      <span class="glyphicon glyphicon-chevron-up"></span>
-                                                    </a>
-                                                      <a href="#" onclick="sortData(0)">
-                                                          <span class="glyphicon glyphicon-chevron-down" ></span>
-                                                      </a>
-                                                     
-                                                  </div>
-                                              </div>
-                                          </th>
-                                        </tr>
-                                      </thead>
-                                      <tbody id="table1">
-                                      
-                                            
-                                         
-                                         
-                                      </tbody>
-                                     
-                                      
-                                         
-                                      
-                                         
-                                    </table>
-                        </div>  
-                    </div> 
                     
+                        <div  >
+                            <div   id = "main-table" >    
+                                <table  class="table  table-bordered ">
+                                  <thead>
+                                    <tr> 
+                                      <th>
+                                        <div class="row">
+                                            <h3>ID</h3>
+                                            <div class="column justify-right">
+                                                <button onclick="sortData(0,'ascending')">
+                                                <span class="glyphicon glyphicon-chevron-up"></span>
+                                              </button>
+                                                <button onclick="sortData(0)">
+                                                <span class="glyphicon glyphicon-chevron-down " ></span>
+                                              </button>
+                                            </div>
+                                        </div>
+                                        
+                                      </th>
+                                       <th>
+                                          <div class="row">
+                                              <h3>Name</h3>
+                                              <div class="column">
+                                                  <button onclick="sortData(1,'ascending')">
+                                                  <span class="glyphicon glyphicon-chevron-up"></span>
+                                                  </button>
+                                                  <button onclick="sortData(1)">
+                                                  <span class="glyphicon glyphicon-chevron-down" ></span>
+                                                </button>
+                                              </div>
+                                          </div>
+                                      </th>
+                                       <th>
+                                          <div class="row">
+                                              <h3>DoB</h3>
+                                              <div class="column">
+                                                  <button onclick="sortData(2,'ascending')">
+                                                  <span class="glyphicon glyphicon-chevron-up"></span>
+                                                </button>
+                                                  <button onclick="sortData(2)">
+                                                  <span class="glyphicon glyphicon-chevron-down" ></span>
+                                                </button>
+                                              </div>
+                                          </div>
+                                      </th>
+                                       <th>
+                                          <div class="row">
+                                              <h3>Contact</h3>
+                                              <div class="column">
+                                                  <button onclick="sortData(3,'ascending')">
+                                                  <span class="glyphicon glyphicon-chevron-up"></span>
+                                                </button>
+                                                  <button onclick="sortData(3)">
+                                                  <span class="glyphicon glyphicon-chevron-down" ></span>
+                                                </button>
+                                              </div>
+                                          </div>
+                                      </th>
+                                       <th>
+                                          <div class="row">
+                                              <h3>Email</h3>
+                                              <div class="column justify-right">
+                                                  <button onclick="sortData(4,'ascending')">
+                                                  <span class="glyphicon glyphicon-chevron-up"></span>
+                                                </button>
+                                                  <button onclick="sortData(4)">
+                                                      <span class="glyphicon glyphicon-chevron-down" ></span>
+                                                  </button>
+                                                 
+                                              </div>
+                                          </div>
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody id="table1">
+                                  
+                                        
+                                     
+                                     
+                                  </tbody>
+                                 
+                                  
+                                     
+                                  
+                                     
+                                </table>
+                    </div>  
+                </div> 
+
+                       
+                        
+<!--                     
                     <div id="search_out" class="table2">
                    
                           <h1>Search output</h1>
@@ -243,7 +206,7 @@
                             
                               </table>  
                                         
-                    </div>
+                    </div> -->
             </section>
 
     

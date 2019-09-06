@@ -36,7 +36,24 @@ nav li{
 .justify-right{
   justify-content: right;
 }
-table, th{
+.justify-center{
+  display: flex;
+  justify-content: center;
+  /* flex-grow: 1; */
+}
+.revert{
+  display:revert;
+}
+/* #main-table table{
+  width: 500px;
+  
+} */
+/* table{
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+  } */
+  /* th{
     border: 1px solid black;
     border-collapse: collapse;
     width: 100%;
@@ -58,7 +75,7 @@ table, th{
     text-align: left;
     max-width: 50px;
     width: 50px;
-  }
+  } */
   /* tr:hover{
     background-color: cadetblue;
     transform: scale(1.01);
@@ -73,14 +90,14 @@ table, th{
     transition: 0.1s; */
 
   }
-  div.table {
+  /* div.table {
     position: relative;
     background-color: lightblue;
     width: 100%;
     height: auto;
     overflow: auto;
     cursor: pointer;
-  }
+  } */
   .scroll {
     overflow:scroll;
     height:0px;
