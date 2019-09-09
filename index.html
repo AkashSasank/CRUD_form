@@ -35,15 +35,7 @@
                                 <li class="nav-item">
                                   <a class="nav-link pointer" onclick="loadDatabase('employee')">Employee Portal</a>
                                 </li>
-                             
-                            </ul>
-                                <div class="search-div">
-                                    <form class="form-inline my-2 my-lg-0 justify-right" id = "searchWindow">
-                                        <input class="form-control mr-sm-2" type="text" placeholder="Search" id="search" onkeyup="searchTable()" >
-                                        <!-- <button class="btn btn-success my-2 my-sm-0" type="button" >Search</button> -->
-                                      </form>
-                                </div>
-                             
+                            </ul> 
                             </div>
                           </nav>
             </header> 
@@ -78,6 +70,7 @@
                               </div>
                               <div class="form-submit-button">
                                   <input type="button" onclick="readForm()" value="Submit" id = "submitButton">
+                                  <input type="button" onclick="document.getElementById('form_input').reset()" value="Reset" id = "submitButton">
                               </div>
                             </div>
                           </div>
@@ -85,23 +78,11 @@
                           </div>
                         </form>          
                     </div> 
-
-<!-- The Modal -->
-<div id="myModal" class="modal">
-  <!-- Modal content -->
-  <div class="modal-cont">
-    <div>
-        <button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></button>
-    </div>
-    <div>
-        <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></button>
-    </div>
-    <div>
-        <button type="button" class="btn  btn-info"><span class="glyphicon glyphicon-remove"></span></button>
-    </div>
-  </div>
-
-</div>
+                    <div class="search-div">
+                        <form class="form-inline my-2 my-lg-0 justify-right" id = "searchWindow">
+                            <input class="form-control mr-sm-2" type="text" placeholder="Search" id="search" onkeyup="searchTable()" >
+                          </form>
+                    </div>
                     
                         <div  >
                             <div   id = "main-table" >    
@@ -109,71 +90,50 @@
                                   <thead>
                                     <tr> 
                                       <th>
-                                        <div class="row">
+                                        <div class="row"onclick="sortData(0)" id="idh">
                                             <h3>ID</h3>
-                                            <div class="column justify-right">
-                                                <button onclick="sortData(0,'ascending')">
-                                                <span class="glyphicon glyphicon-chevron-up"></span>
-                                              </button>
-                                                <button onclick="sortData(0)">
-                                                <span class="glyphicon glyphicon-chevron-down " ></span>
-                                              </button>
-                                            </div>
+                                           
+                                                  <h3 class="glyphicon glyphicon-chevron-down"></h3>
+                                             
                                         </div>
                                         
                                       </th>
                                        <th>
-                                          <div class="row">
+                                          <div class="row" onclick="sortData(1)" id="nameh">
                                               <h3>Name</h3>
-                                              <div class="column">
-                                                  <button onclick="sortData(1,'ascending')">
-                                                  <span class="glyphicon glyphicon-chevron-up"></span>
-                                                  </button>
-                                                  <button onclick="sortData(1)">
-                                                  <span class="glyphicon glyphicon-chevron-down" ></span>
-                                                </button>
-                                              </div>
+                                             
+                                                      <h3 class="glyphicon glyphicon-chevron-down"></h3>
+                                                
                                           </div>
                                       </th>
                                        <th>
-                                          <div class="row">
+                                          <div class="row" onclick="sortData(2)" id="dobh">
                                               <h3>DoB</h3>
-                                              <div class="column">
-                                                  <button onclick="sortData(2,'ascending')">
-                                                  <span class="glyphicon glyphicon-chevron-up"></span>
-                                                </button>
-                                                  <button onclick="sortData(2)">
-                                                  <span class="glyphicon glyphicon-chevron-down" ></span>
-                                                </button>
-                                              </div>
+                                             
+                                                      <h3 class="glyphicon glyphicon-chevron-down"></h3>
+                                          
                                           </div>
                                       </th>
                                        <th>
-                                          <div class="row">
+                                          <div class="row" onclick="sortData(3)" id="phoneh">
                                               <h3>Contact</h3>
-                                              <div class="column">
-                                                  <button onclick="sortData(3,'ascending')">
-                                                  <span class="glyphicon glyphicon-chevron-up"></span>
-                                                </button>
-                                                  <button onclick="sortData(3)">
-                                                  <span class="glyphicon glyphicon-chevron-down" ></span>
-                                                </button>
-                                              </div>
+                           
+                                                      <h3 class="glyphicon glyphicon-chevron-down"></h3>
+                                              
                                           </div>
                                       </th>
                                        <th>
-                                          <div class="row">
+                                          <div class="row" onclick="sortData(4)" id="emailh">
                                               <h3>Email</h3>
-                                              <div class="column justify-right">
-                                                  <button onclick="sortData(4,'ascending')">
-                                                  <span class="glyphicon glyphicon-chevron-up"></span>
-                                                </button>
-                                                  <button onclick="sortData(4)">
-                                                      <span class="glyphicon glyphicon-chevron-down" ></span>
-                                                  </button>
-                                                 
-                                              </div>
+                              
+                                                      <h3 class="glyphicon glyphicon-chevron-down"></h3>
+                                 
                                           </div>
+                                      </th>
+                                      <th>
+                                          
+                                              <h3>Actions</h3>
+                                            
                                       </th>
                                     </tr>
                                   </thead>
@@ -191,22 +151,6 @@
                                 </table>
                     </div>  
                 </div> 
-
-                       
-                        
-<!--                     
-                    <div id="search_out" class="table2">
-                   
-                          <h1>Search output</h1>
-               
-                   
-                     
-                            <table id="table2">
-        
-                            
-                              </table>  
-                                        
-                    </div> -->
             </section>
 
     

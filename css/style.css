@@ -7,6 +7,9 @@
   cursor: pointer;
  
 }
+html {
+  scroll-behavior: smooth;
+}
 nav {
   margin: 5% 5%;
 }
@@ -29,8 +32,7 @@ nav li{
   max-width: 100%;
 } */
 .search-div{
-    padding-top: 20px;
-    padding-left:100px;
+    padding:30px 0px;
   
 }
 .justify-right{
@@ -84,10 +86,26 @@ nav li{
   thead{
     background-color: antiquewhite;
   }
+  td{
+    font-size: 1.5vw;
+  }
   td:hover{
     background-color: aquamarine;
     /* transform: scale(1.01);
     transition: 0.1s; */
+
+  }
+  th{
+    cursor: pointer;
+  }
+  th h3{
+    font-size: 2.5vw;
+  }
+  th:hover{
+    transform: scale(1.001);
+    transition: 0.1s;
+    background-color: coral;
+    color: #ffffff;
 
   }
   /* div.table {
@@ -122,13 +140,16 @@ nav li{
   }
   .form-submit-button{
     display: flex;
-    justify-content: space-around;
+    justify-content:space-evenly;
     margin: 15%;
+    flex-wrap: nowrap;
+    padding-left: 30%;
   }
   .row{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    flex-wrap: nowrap;
   }
   .column{
     display: flex;
@@ -195,11 +216,11 @@ input {
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-evenly;
-  background-color: #fefefe;
+  /* background-color: #fefefe; */
   margin: auto;
   padding: 30px;
   width: 150px;
   height: auto;
-  border: 1px solid #888;
+  /* border: 1px solid #888; */
 }
 
