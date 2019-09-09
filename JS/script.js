@@ -45,25 +45,18 @@ function check(myform){
    alert("Enter a valid email");
    return false;
  }
-<<<<<<< HEAD
-=======
  var contactRegex = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
  if(contactRegex.test(myform[3].value)===false){
   alert("Enter a valid contact number");
   return false;
 
  }
->>>>>>> develop
     else{
       return true;
     }
   }
 function readForm () {
     let formData = $(document.getElementById("form_input")).serializeArray();
-<<<<<<< HEAD
-
-=======
->>>>>>> develop
     if(check(formData)){
         document.getElementById("form_input").reset();
         let storedData = null;
@@ -76,12 +69,7 @@ function readForm () {
           storedData.unshift(formData);
           let newData = JSON.stringify(storedData);
           localStorage.setItem(database,newData);
-<<<<<<< HEAD
-    }  
-    
-=======
     }    
->>>>>>> develop
     loadTable();
   }
 function loadTable(array){
@@ -201,14 +189,6 @@ function editTable(index){
   
  
     document.getElementById("submitButton").onclick = function(){
-<<<<<<< HEAD
-      updateTable(index);
-      document.getElementById("submitButton").setAttribute("onclick",null);
-      document.getElementById("submitButton").setAttribute("onclick","readForm()");
-      loadTable();
-      };
-  }  
-=======
       
       let status = updateTable(index);
       if(status){
@@ -217,7 +197,6 @@ function editTable(index){
         loadTable();
       }
       };  
->>>>>>> develop
 }
 function updateTable(index){
   let formData = $(document.getElementById("form_input")).serializeArray();
@@ -227,10 +206,7 @@ function updateTable(index){
     document.getElementById("form_input").reset();
     let newData = JSON.stringify(tableData);
     localStorage.setItem(database,newData);
-<<<<<<< HEAD
-=======
     return true;
->>>>>>> develop
   }  
 }
 //To delete a row of given index
