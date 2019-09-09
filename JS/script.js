@@ -71,6 +71,7 @@ function readForm () {
           localStorage.setItem(database,newData);
     }    
     loadTable();
+    // window.scrollTo(0,0);
   }
 function loadTable(array){   
     var container = document.getElementById ("table1");
@@ -107,13 +108,15 @@ function loadTable(array){
           del.innerHTML = '<span class="glyphicon glyphicon-trash">';
           edit.onclick = function() {
             if(confirm("Do you want to continue?")){
-                editTable(employee);
                 window.scrollTo(0,0);//scroll to form
+                editTable(employee);
+                
               }
           }            
           del.onclick = function() {
             if(confirm("Data will be lost forever!! Do you want to continue? ")){
                   deleteRow(employee);
+                  window.scrollTo(0,0);//scroll to form
                 }
           }
           d.appendChild(edit);
@@ -123,55 +126,7 @@ function loadTable(array){
       }
     }
 }
-function searchOutput(){
-  searchFlag = true;
-  let searchInput = document.getElementById("search").value;
-  document.getElementById("searchWindow").reset();
-  // alert(searchInput)
-  let tableData = JSON.parse(localStorage.getItem(database));
-  let index = searchTable(searchInput,tableData); 
-  // alert(index[0])
-  if(tableData.length === 0){
-    alert("No records to search");  
-  }
-  else if(index.length === 0 && tableData.length !== 0){
-      alert("Oops! no result")
-  }
-  else{
-    let searchOut = []
-    for(let i = 0;i<index.length;i++){
-      searchOut.unshift(tableData[index[i]]);
-    loadTable(searchOut);    
-  }
-}
-}
-function searchTable(searchInput,tableData){
-    var index = [];
-    for(let i = 0;i < tableData.length;i++){
-        for(let j = 0;j < tableData[i].length;j++){
-            if(tableData[i][j].value === searchInput){
-                index.push(i);
-            }
-        }
-    }
-    return index;
-  }
-function createRow(data,container){
-    let row = document.createElement('tr');
-    let newRow = container.appendChild(row);
-    for(let i =0;i<=num_fields-1;i++){
-      let col =  document.createElement('td');
-      newRow.appendChild(col).innerHTML= data[i].value;
-    }
-}
-function deleteData(){
-    localStorage.clear();
-    var container = document.getElementById ("table1");
-    container.innerHTML = '';
-    var container = document.getElementById ("table2");
-    container.innerHTML = '';
-}
-function editTable(index){
+function editTable(index){  
   
   let tableData = JSON.parse(localStorage.getItem(database));
   let currentRow = tableData[index];
@@ -182,13 +137,15 @@ function editTable(index){
   document.getElementById("Email").value = currentRow[4].value;
   document.getElementById("submitButton").onclick = function(){
       x = event.clientX;
-      y = event.clientY;      
+      y = event.clientY;   
+      console.log(x)
+      console.log(y)   
       let status = updateTable(index);
       if(status){
         document.getElementById("submitButton").setAttribute("onclick",null);
         document.getElementById("submitButton").setAttribute("onclick","readForm()");
         loadTable();
-        window.scrollTo(x,y);//scroll back to row
+        window.scrollTo(x,y+200);//scroll back to row
       }
       };  
 }
@@ -211,48 +168,6 @@ function deleteRow(index){
   localStorage.setItem(database,newData);
   loadTable();
 }
-//To detect a click on a given row
-function addRowHandlers() {
-  if(!searchFlag){
-    var table = document.getElementById("table1");
-    var rows = table.getElementsByTagName("tr");
-    for (let i = 0; i < rows.length; i++) {
-      var currentRow = table.rows[i];
-      var createClickHandler = function(row,index) {
-        return function() {
-          let modal =  document.getElementById('myModal');
-          var edit = document.getElementsByClassName("btn")[0];  
-          var del = document.getElementsByClassName("btn")[1];
-          var close = document.getElementsByClassName("btn")[2];
-          modal.style.display = "block";    
-          edit.onclick = function() {
-            if(confirm("Do you want to continue?")){
-                editTable(index);
-                modal.style.display = "none";
-              }
-          }            
-          del.onclick = function() {
-            if(confirm("Data will be lost forever!! Do you want to continue? ")){
-                  deleteRow(index);
-                  modal.style.display = "none";
-                }
-          }
-          close.onclick = function() {
-            modal.style.display = "none";
-          }
-          // When the user clicks anywhere outside of the modal, close it
-          window.onclick = function(event) {
-            if (event.target == modal) {
-              modal.style.display = "none";
-            }
-          }
-        };
-      };
-      currentRow.onclick = createClickHandler(currentRow,i);
-    }
-  }
-
-  }
   //Sort each field in table by clicking on corresponding table heading
 function sortData(field,type){
     let tableData = JSON.parse(localStorage.getItem(database));
@@ -269,7 +184,6 @@ function sortData(field,type){
     for( i =0;i<tableData.length;i++){
       index.push(sortedData[i][1]);
     }
-  
     let newData = [];
     if(type === 'ascending'){
       for( i =0 ; i<tableData.length ; i++){
@@ -291,24 +205,21 @@ function sortData(field,type){
       document.getElementById(table_ids[field]).setAttribute("onclick",null);
       document.getElementById(table_ids[field]).setAttribute("onclick","sortData("+f+")");
     }
-   
    loadTable(newData);
    localStorage.setItem(database,JSON.stringify(newData));
   }
-
 function searchTable() {
     searchFlag = true;
     let input, filter, table, tr, td, i,j, txtValue;
     let index = [];
     input = document.getElementById("search");
-    console.log(input.value);
+    // console.log(input.value);
     filter = input.value.toUpperCase();
     table = document.getElementById("table1");
     tr = table.getElementsByTagName("tr");
     for (i = 0; i < tr.length; i++) {
       for(j = 0;j<num_fields;j++){
-      td = tr[i].getElementsByTagName("td")[j];
-      
+      td = tr[i].getElementsByTagName("td")[j];     
       if (td) {
         txtValue = td.textContent || td.innerText;
         if (txtValue.toUpperCase().indexOf(filter) === -1) {
