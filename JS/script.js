@@ -1,25 +1,30 @@
 var database = "student_data";//default database in local storage
 const num_fields = 5;
 let searchFlag = false;// to know an ongoing seach operation
+let x,y;
 function loadDatabase(entity){
   document.getElementById("form_input").reset();
   if(entity === 'student'){
     database = "student_data";
+    // document.getElementById("cover-spin").style.display = "block";
     document.getElementById("id_label").innerHTML = "Student ID:";
     document.getElementById("form_name").innerHTML = "Student Portal"
+    // document.getElementById("cover-spin").style.display = "none";
   }
   else{
     database = "employee_data";
+    // document.getElementById("cover-spin").style.display = "block";
     document.getElementById("id_label").innerHTML = "Employee ID:";
     document.getElementById("form_name").innerHTML = "Employee Portal"
+    // document.getElementById("cover-spin").style.display = "none";
   }
   loadTable();
   return true;
 }
 function init(){
   loadTable();//load table data from local storage
-  // document.getElementById("search_out").style.display = "none";//hide the search output div
   document.getElementById("form_input").reset();
+  document.getElementById("searchWindow").reset();
   }
 
 function check(myform){
@@ -49,16 +54,29 @@ function check(myform){
  if(contactRegex.test(myform[3].value)===false){
   alert("Enter a valid contact number");
   return false;
-
  }
     else{
       return true;
     }
   }
+function isUnique(value,data,field){
+  let status =  true;
+  data.forEach(val => {
+    if(val[field].value === value){
+     status = status && false;
+    }
+    // else{
+    //   return true;
+    // }  
+  });
+  // alert(status)
+  return status;
+
+}
 function readForm () {
-    let formData = $(document.getElementById("form_input")).serializeArray();
+    let input = document.getElementById("form_input");
+    let formData = $(input).serializeArray();
     if(check(formData)){
-        document.getElementById("form_input").reset();
         let storedData = null;
         if(localStorage.getItem(database) === null){
           storedData = [];
@@ -66,26 +84,40 @@ function readForm () {
         else{
           storedData = JSON.parse(localStorage.getItem(database)); 
         }
-          storedData.unshift(formData);
-          let newData = JSON.stringify(storedData);
-          localStorage.setItem(database,newData);
+          if(isUnique(formData[0].value,storedData,0)){
+            if(isUnique(formData[3].value,storedData,3)){
+              if(isUnique(formData[4].value,storedData,4)){
+                storedData.unshift(formData);
+                let newData = JSON.stringify(storedData);
+                localStorage.setItem(database,newData);
+                input.reset();
+                loadTable();
+              }
+              else{
+                alert("email ID already exists!")
+              }
+            }
+            else{
+              alert("Contact number already exists!")
+            }
+          }
+          else{
+            alert("A record already exists for the given  ID!")
+          }
+         
     }    
-    loadTable();
   }
-function loadTable(array){
-    
+function loadTable(array){   
     var container = document.getElementById ("table1");
     container.innerHTML = '';
     let tableData = JSON.parse(localStorage.getItem(database));
-    console.log(tableData.length)
     if(tableData.length === 0 ){
       document.getElementById ("main-table").style.display = "none";//hide the search output div
     }
     else{
       document.getElementById ("main-table").style.display = "revert";//hide the search output div
       if(array !== undefined){
-        tableData = array;
-        
+        tableData = array;   
       }
       if (tableData!== null){
         for(let employee = 0;employee < tableData.length;employee++){
@@ -98,176 +130,110 @@ function loadTable(array){
               col.style.textAlign = "right";
             }
             newRow.appendChild(col).innerHTML= data[i].value;
-            console.log(isNaN(data[i]))
           }
-          tableData.forEach((value, index) => {
-            console.log(value, index)
-            console.log(isNaN(value[0].value))
-          })
+          let col =  document.createElement('td');
+          let d = document.createElement("div");
+          d.setAttribute("class","modal-cont");
+          let del = document.createElement("button");
+          let edit = document.createElement("button");
+          del.setAttribute("class","btn btn-warning");
+          edit.setAttribute("class","btn btn-danger");
+          edit.innerHTML = '<span class="glyphicon glyphicon-pencil">';
+          del.innerHTML = '<span class="glyphicon glyphicon-trash">';
+          edit.onclick = function() {
+            if(confirm("Do you wish to continue?")){
+                window.scrollTo(0,0);//scroll to form
+                editTable(employee);
+              }
+          }            
+          del.onclick = function() {
+            if(confirm("Data will be lost forever!! Do you wish to continue? ")){
+                  deleteRow(employee);
+                  window.scrollTo(0,0);//scroll to form
+                }
+          }
+          d.appendChild(edit);
+          d.appendChild(del);
+          col.appendChild(d)
+          newRow.appendChild(col);
       }
-      addRowHandlers();
       }
-      
-     
     }
-    // resetForm();
-    
 }
-function searchOutput(){
-  searchFlag = true;
-  let searchInput = document.getElementById("search").value;
-  document.getElementById("searchWindow").reset();
-  // alert(searchInput)
+function editTable(index){  
   let tableData = JSON.parse(localStorage.getItem(database));
-  let index = searchTable(searchInput,tableData); 
-  // alert(index[0])
-  if(tableData.length === 0){
-    alert("No records to search");  
-  }
-  else if(index.length === 0 && tableData.length !== 0){
-      alert("Oops! no result")
-  }
-  else{
-    let searchOut = []
-    for(let i = 0;i<index.length;i++){
-      searchOut.unshift(tableData[index[i]]);
-    //   createRow(data,container);
-    //   document.getElementById("search_out").style.display = "block";//show the search output div
-    //   document.getElementById("search_out").onclick = function(){
-    //   document.getElementById("search_out").style.display = "none";//hide the search output div
-    // }
-    // var container = document.getElementById ("main-table");
-    // container.innerHTML = '';
-    loadTable(searchOut);
-    
-  }
-  // window.onclick = function(event) {
-  //   document.reload();
-  //   }
-}
-}
-function searchTable(searchInput,tableData){
-    // if(outputTableID!== null){
-    //   var container = document.getElementById (outputTableID);
-    //   container.innerHTML = '';
-    // }
-    var index = [];
-    for(let i = 0;i < tableData.length;i++){
-        for(let j = 0;j < tableData[i].length;j++){
-            if(tableData[i][j].value === searchInput){
-                index.push(i);
-            }
-        }
-    }
-    // document.getElementById("searchWindow").reset();
-    return index;
-  }
-function createRow(data,container){
-    let row = document.createElement('tr');
-    let newRow = container.appendChild(row);
-    for(let i =0;i<=num_fields-1;i++){
-      let col =  document.createElement('td');
-      newRow.appendChild(col).innerHTML= data[i].value;
-    }
-}
-function deleteData(){
-    localStorage.clear();
-    var container = document.getElementById ("table1");
-    container.innerHTML = '';
-    var container = document.getElementById ("table2");
-    container.innerHTML = '';
-}
-function editTable(index){
-  
-  let tableData = JSON.parse(localStorage.getItem(database));
+  let submit = document.getElementById("submitButton");
   let currentRow = tableData[index];
   document.getElementById("ID").value = currentRow[0].value;
   document.getElementById("name").value = currentRow[1].value;
   document.getElementById("dob").value = currentRow[2].value;
   document.getElementById("phone").value = currentRow[3].value;
   document.getElementById("Email").value = currentRow[4].value;
-  
- 
-    document.getElementById("submitButton").onclick = function(){
-      
+  submit.onclick = function(){
+      x = event.clientX;
+      y = event.clientY;   
       let status = updateTable(index);
       if(status){
-        document.getElementById("submitButton").setAttribute("onclick",null);
-        document.getElementById("submitButton").setAttribute("onclick","readForm()");
+        submit.setAttribute("onclick",null);
+        submit.setAttribute("onclick","readForm()");
         loadTable();
+        window.scrollTo(x,y+200);//scroll back to row
       }
       };  
 }
 function updateTable(index){
-  let formData = $(document.getElementById("form_input")).serializeArray();
+  let input = document.getElementById("form_input");
+  let formData = $(input).serializeArray();
   if(check(formData)){
     let tableData = JSON.parse(localStorage.getItem(database));
-    tableData[index]=formData;
-    document.getElementById("form_input").reset();
-    let newData = JSON.stringify(tableData);
-    localStorage.setItem(database,newData);
-    return true;
+    let record = tableData.filter((val,i)=> i!== index )
+    if(isUnique(formData[0].value,record,0)){
+      if(isUnique(formData[3].value,record,3)){
+        if(isUnique(formData[4].value,record,4)){
+          tableData[index]=formData;
+          input.reset();
+          let newData = JSON.stringify(tableData);
+          localStorage.setItem(database,newData);
+          return true;
+        }
+        else{
+          alert("email ID already exists!")
+        }
+      }
+      else{
+        alert("Contact number already exists!")
+      }
+    }
+    else{
+      alert("A record already exists for the given  ID!")
+    }
+    
   }  
 }
-//To delete a row of given index
-function deleteRow(index){
+function deleteRow(index){//To delete a row of given index
   let tableData = JSON.parse(localStorage.getItem(database));
   tableData.splice(index,1);
   let newData = JSON.stringify(tableData);
   localStorage.setItem(database,newData);
   loadTable();
 }
-//To detect a click on a given row
-function addRowHandlers() {
-  if(!searchFlag){
-    var table = document.getElementById("table1");
-    var rows = table.getElementsByTagName("tr");
-    for (let i = 0; i < rows.length; i++) {
-      var currentRow = table.rows[i];
-      var createClickHandler = function(row,index) {
-        return function() {
-          let modal =  document.getElementById('myModal');
-          var edit = document.getElementsByClassName("btn")[0];  
-          var del = document.getElementsByClassName("btn")[1];
-          var close = document.getElementsByClassName("btn")[2];
-          modal.style.display = "block";    
-          edit.onclick = function() {
-            if(confirm("Do you want to continue?")){
-                editTable(index);
-                modal.style.display = "none";
-              }
-          }            
-          del.onclick = function() {
-            if(confirm("Data will be lost forever!! Do you want to continue? ")){
-                  deleteRow(index);
-                  modal.style.display = "none";
-                }
-          }
-          close.onclick = function() {
-            modal.style.display = "none";
-          }
-          // When the user clicks anywhere outside of the modal, close it
-          window.onclick = function(event) {
-            if (event.target == modal) {
-              modal.style.display = "none";
-            }
-          }
-        };
-      };
-      currentRow.onclick = createClickHandler(currentRow,i);
-    }
-  }
-
-  }
-  //Sort each field in table by clicking on corresponding table heading
-function sortData(field,type){
+function sortData(field,type){  //Sort each field in table by clicking on corresponding table heading
     let tableData = JSON.parse(localStorage.getItem(database));
+    let table_ids = ["idh","nameh","dobh","phoneh","emailh"];
+    let table_head =  document.getElementById(table_ids[field]);
     let data = []; 
-    let index = [];   
+    let index = [];  
+    let f = field.toString(); 
+    let sortedData = null;
     for(let i = 0;i<tableData.length;i++){
       data.push([tableData[i][field].value,i]);
     }
-    let sortedData = data.sort();
+    if(isNaN(data[0][0])){
+      sortedData = data.sort();
+    }
+    else{
+      sortedData = data.sort(function(a, b){return a[0]-b[0]});
+    }
     for( i =0;i<tableData.length;i++){
       index.push(sortedData[i][1]);
     }
@@ -276,37 +242,50 @@ function sortData(field,type){
       for( i =0 ; i<tableData.length ; i++){
         newData.push(tableData[index[i]]);
       }
+     table_head.setAttribute("onclick",null);
+     table_head.setAttribute("onclick","sortData("+f+")");
+     table_head.lastElementChild.setAttribute("class","glyphicon glyphicon-chevron-down");
     }
-    else{
+    else if(type === undefined){
       for( i =0 ; i<tableData.length ; i++){
         newData.unshift(tableData[index[i]]);
       } 
+      table_head.setAttribute("onclick",null);
+      table_head.setAttribute("onclick","sortData("+f+",'ascending')");
+      table_head.lastElementChild.setAttribute("class","glyphicon glyphicon-chevron-up");
     }
-   
+    else{
+      document.getElementById(table_ids[field]).setAttribute("onclick",null);
+      document.getElementById(table_ids[field]).setAttribute("onclick","sortData("+f+")");
+    }
    loadTable(newData);
    localStorage.setItem(database,JSON.stringify(newData));
   }
-
-  function searchTable() {
+function searchTable() {
     searchFlag = true;
     let input, filter, table, tr, td, i,j, txtValue;
+    let index = [];
     input = document.getElementById("search");
+    // console.log(input.value);
     filter = input.value.toUpperCase();
-    table = document.getElementById("main-table");
+    table = document.getElementById("table1");
     tr = table.getElementsByTagName("tr");
     for (i = 0; i < tr.length; i++) {
-      for(j = 0;j<num_fields;j++)
-      td = tr[i].getElementsByTagName("td")[j];
+      for(j = 0;j<num_fields;j++){
+      td = tr[i].getElementsByTagName("td")[j];     
       if (td) {
         txtValue = td.textContent || td.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          tr[i].style.display = "";
-        } else {
+        if (txtValue.toUpperCase().indexOf(filter) === -1) {
+          index.push(i);
           tr[i].style.display = "none";
+        } else {
+          tr[i].style.display = "";
         }
       }       
     }
   }
+}
+  
 
  
 

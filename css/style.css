@@ -7,6 +7,13 @@
   cursor: pointer;
  
 }
+html {
+  scroll-behavior: smooth;
+}
+body{
+  background-image: url("../images/stud2.jpeg");
+  /* background-repeat: no-repeat; */
+}
 nav {
   margin: 5% 5%;
 }
@@ -19,6 +26,7 @@ nav ul {
 nav a{
   color: #ffffff;
   font-size: 30px;
+  text-decoration: none;
 }
 nav li{
   margin: 10px;
@@ -29,8 +37,8 @@ nav li{
   max-width: 100%;
 } */
 .search-div{
-    padding-top: 20px;
-    padding-left:100px;
+    padding:30px 0px;
+    /* background-color: azure; */
   
 }
 .justify-right{
@@ -40,6 +48,29 @@ nav li{
   display: flex;
   justify-content: center;
   /* flex-grow: 1; */
+}
+.space-around{
+  display: flex;
+  justify-content:space-around;
+  /* flex-grow: 1; */
+}
+.back{
+  display: flex;
+  justify-content: right;
+  padding-right: 10%;
+  
+}
+a{
+  text-decoration: none;
+  outline:none;
+  color:inherit;
+}
+.info{
+  display: flex;
+  justify-content: space-around;
+  color: #ffffff;
+  background-color: crimson;
+  /* padding-bottom: 0px; */
 }
 .revert{
   display:revert;
@@ -84,10 +115,28 @@ nav li{
   thead{
     background-color: antiquewhite;
   }
+  td{
+    font-size: 1.5vw;
+    background-color: azure;
+    word-wrap: wrap break-word;
+  }
   td:hover{
     background-color: aquamarine;
     /* transform: scale(1.01);
     transition: 0.1s; */
+
+  }
+  th{
+    cursor: pointer;
+  }
+  th h3{
+    font-size: 2.5vw;
+  }
+  th:hover{
+    transform: scale(1.001);
+    transition: 0.1s;
+    background-color: coral;
+    color: #ffffff;
 
   }
   /* div.table {
@@ -104,11 +153,32 @@ nav li{
 }
   #portal{
     margin: 1% 10%;
+    /* animation: spin 2s linear infinite; */
   }
-  #portal h1{
-    color: crimson;
+  /* @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  } */
+  #form_name {
+    position: relative;
     text-align: center;
-
+    font-weight: bold;
+    color: black;
+    background-color: white;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: screen;
+    top: 50%;
+    left: 50%;
+    /* margin: 0 auto; */
+    /* padding: 10px; */
+    justify-content: center;
+    width: 50%;
+  }
+  #form_input{
+    padding-right: 50px;
+  }
+  .name{
+    padding-top: 10px
   }
   .space-between{
     justify-content: space-between;
@@ -120,32 +190,24 @@ nav li{
     display: flex;
     justify-content: space-between;
   }
+  
   .form-submit-button{
     display: flex;
-    justify-content: space-around;
+    justify-content:space-evenly;
     margin: 15%;
+    flex-wrap: nowrap;
+    padding-left: 30%;
   }
   .row{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    flex-wrap: nowrap;
   }
   .column{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-  }
-  #search_out.table2 {
-    background-color: #ffffff;
-    width: 100%;
-    height: 50px;
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    height:  100px;
-    text-align: center;
   }
   div.table_head {
     width: 100%;
@@ -169,6 +231,7 @@ nav li{
     justify-content: space-around;
     flex-wrap: nowrap;
     padding: 2%;
+    background-color: cadetblue;
   }
 input {
   max-width: 150px;
@@ -195,11 +258,45 @@ input {
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-evenly;
-  background-color: #fefefe;
+  /* background-color: #fefefe; */
   margin: auto;
-  padding: 30px;
-  width: 150px;
+  /* padding: 30px; */
+  width: 100px;
   height: auto;
-  border: 1px solid #888;
+  background-color: azure 00;
+  /* border: 1px solid #888; */
 }
 
+#cover-spin {
+  position:fixed;
+  width:100%;
+  left:0;right:0;top:0;bottom:0;
+  background-color: rgba(255,255,255,0.7);
+  z-index:9999;
+  display:none;
+}
+
+@-webkit-keyframes spin {
+from {-webkit-transform:rotate(0deg);}
+to {-webkit-transform:rotate(360deg);}
+}
+
+@keyframes spin {
+from {transform:rotate(0deg);}
+to {transform:rotate(360deg);}
+}
+
+#cover-spin::after {
+  content:'';
+  display:block;
+  position:absolute;
+  left:48%;top:40%;
+  width:40px;height:40px;
+  border-style:solid;
+  border-color:black;
+  border-top-color:transparent;
+  border-width: 4px;
+  border-radius:50%;
+  -webkit-animation: spin .8s linear infinite;
+  animation: spin .8s linear infinite;
+}
