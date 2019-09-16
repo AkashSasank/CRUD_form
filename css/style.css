@@ -10,6 +10,10 @@
 html {
   scroll-behavior: smooth;
 }
+body{
+  background-image: url("../images/stud2.jpeg");
+  /* background-repeat: no-repeat; */
+}
 nav {
   margin: 5% 5%;
 }
@@ -22,6 +26,7 @@ nav ul {
 nav a{
   color: #ffffff;
   font-size: 30px;
+  text-decoration: none;
 }
 nav li{
   margin: 10px;
@@ -33,6 +38,7 @@ nav li{
 } */
 .search-div{
     padding:30px 0px;
+    /* background-color: azure; */
   
 }
 .justify-right{
@@ -42,6 +48,24 @@ nav li{
   display: flex;
   justify-content: center;
   /* flex-grow: 1; */
+}
+.back{
+  display: flex;
+  justify-content: right;
+  padding-right: 10%;
+  
+}
+a{
+  text-decoration: none;
+  outline:none;
+  color:inherit;
+}
+.info{
+  display: flex;
+  justify-content: space-around;
+  color: #ffffff;
+  background-color: crimson;
+  /* padding-bottom: 0px; */
 }
 .revert{
   display:revert;
@@ -88,6 +112,8 @@ nav li{
   }
   td{
     font-size: 1.5vw;
+    background-color: azure;
+    word-wrap: wrap break-word;
   }
   td:hover{
     background-color: aquamarine;
@@ -123,9 +149,11 @@ nav li{
   #portal{
     margin: 1% 10%;
   }
-  #portal h1{
-    color: crimson;
+  #form_name {
     text-align: center;
+    font-weight: bold;
+    color: #ffffff;
+    
 
   }
   .space-between{
@@ -138,6 +166,7 @@ nav li{
     display: flex;
     justify-content: space-between;
   }
+  
   .form-submit-button{
     display: flex;
     justify-content:space-evenly;
@@ -155,18 +184,6 @@ nav li{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-  }
-  #search_out.table2 {
-    background-color: #ffffff;
-    width: 100%;
-    height: 50px;
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    height:  100px;
-    text-align: center;
   }
   div.table_head {
     width: 100%;
@@ -190,6 +207,7 @@ nav li{
     justify-content: space-around;
     flex-wrap: nowrap;
     padding: 2%;
+    background-color: cadetblue;
   }
 input {
   max-width: 150px;
@@ -218,9 +236,10 @@ input {
   justify-content: space-evenly;
   /* background-color: #fefefe; */
   margin: auto;
-  padding: 30px;
-  width: 150px;
+  /* padding: 30px; */
+  width: 100px;
   height: auto;
+  background-color: azure 00;
   /* border: 1px solid #888; */
 }
 

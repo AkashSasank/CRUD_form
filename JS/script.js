@@ -56,9 +56,10 @@ function check(myform){
     }
   }
 function readForm () {
-    let formData = $(document.getElementById("form_input")).serializeArray();
+    let input = document.getElementById("form_input");
+    let formData = $(input).serializeArray();
     if(check(formData)){
-        document.getElementById("form_input").reset();
+        input.reset();
         let storedData = null;
         if(localStorage.getItem(database) === null){
           storedData = [];
@@ -107,21 +108,21 @@ function loadTable(array){
           edit.innerHTML = '<span class="glyphicon glyphicon-pencil">';
           del.innerHTML = '<span class="glyphicon glyphicon-trash">';
           edit.onclick = function() {
-            if(confirm("Do you want to continue?")){
+            if(confirm("Do you wish to continue?")){
                 window.scrollTo(0,0);//scroll to form
                 editTable(employee);
-                
               }
           }            
           del.onclick = function() {
-            if(confirm("Data will be lost forever!! Do you want to continue? ")){
+            if(confirm("Data will be lost forever!! Do you wish to continue? ")){
                   deleteRow(employee);
                   window.scrollTo(0,0);//scroll to form
                 }
           }
           d.appendChild(edit);
           d.appendChild(del);
-          newRow.appendChild(d);
+          col.appendChild(d)
+          newRow.appendChild(col);
       }
       }
     }
@@ -129,32 +130,34 @@ function loadTable(array){
 function editTable(index){  
   
   let tableData = JSON.parse(localStorage.getItem(database));
+  let submit = document.getElementById("submitButton");
   let currentRow = tableData[index];
   document.getElementById("ID").value = currentRow[0].value;
   document.getElementById("name").value = currentRow[1].value;
   document.getElementById("dob").value = currentRow[2].value;
   document.getElementById("phone").value = currentRow[3].value;
   document.getElementById("Email").value = currentRow[4].value;
-  document.getElementById("submitButton").onclick = function(){
+  submit.onclick = function(){
       x = event.clientX;
       y = event.clientY;   
       console.log(x)
       console.log(y)   
       let status = updateTable(index);
       if(status){
-        document.getElementById("submitButton").setAttribute("onclick",null);
-        document.getElementById("submitButton").setAttribute("onclick","readForm()");
+        submit.setAttribute("onclick",null);
+        submit.setAttribute("onclick","readForm()");
         loadTable();
         window.scrollTo(x,y+200);//scroll back to row
       }
       };  
 }
 function updateTable(index){
-  let formData = $(document.getElementById("form_input")).serializeArray();
+  let input = document.getElementById("form_input");
+  let formData = $(input).serializeArray();
   if(check(formData)){
     let tableData = JSON.parse(localStorage.getItem(database));
     tableData[index]=formData;
-    document.getElementById("form_input").reset();
+    input.reset();
     let newData = JSON.stringify(tableData);
     localStorage.setItem(database,newData);
     return true;
@@ -176,11 +179,19 @@ function sortData(field,type){
     let data = []; 
     let index = [];  
     let f = field.toString(); 
+    let sortedData = null;
     // alert(f)
     for(let i = 0;i<tableData.length;i++){
       data.push([tableData[i][field].value,i]);
     }
-    let sortedData = data.sort();
+    // console.log(isNaN(data[0][0]))
+    if(isNaN(data[0][0])){
+      sortedData = data.sort();
+    }
+    else{
+      sortedData = data.sort(function(a, b){return a[0]-b[0]});
+    }
+
     for( i =0;i<tableData.length;i++){
       index.push(sortedData[i][1]);
     }
