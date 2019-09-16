@@ -6,13 +6,17 @@ function loadDatabase(entity){
   document.getElementById("form_input").reset();
   if(entity === 'student'){
     database = "student_data";
+    // document.getElementById("cover-spin").style.display = "block";
     document.getElementById("id_label").innerHTML = "Student ID:";
     document.getElementById("form_name").innerHTML = "Student Portal"
+    // document.getElementById("cover-spin").style.display = "none";
   }
   else{
     database = "employee_data";
+    // document.getElementById("cover-spin").style.display = "block";
     document.getElementById("id_label").innerHTML = "Employee ID:";
     document.getElementById("form_name").innerHTML = "Employee Portal"
+    // document.getElementById("cover-spin").style.display = "none";
   }
   loadTable();
   return true;
@@ -55,11 +59,24 @@ function check(myform){
       return true;
     }
   }
+function isUnique(value,data,field){
+  let status =  true;
+  data.forEach(val => {
+    if(val[field].value === value){
+     status = status && false;
+    }
+    // else{
+    //   return true;
+    // }  
+  });
+  // alert(status)
+  return status;
+
+}
 function readForm () {
     let input = document.getElementById("form_input");
     let formData = $(input).serializeArray();
     if(check(formData)){
-        input.reset();
         let storedData = null;
         if(localStorage.getItem(database) === null){
           storedData = [];
@@ -67,12 +84,28 @@ function readForm () {
         else{
           storedData = JSON.parse(localStorage.getItem(database)); 
         }
-          storedData.unshift(formData);
-          let newData = JSON.stringify(storedData);
-          localStorage.setItem(database,newData);
+          if(isUnique(formData[0].value,storedData,0)){
+            if(isUnique(formData[3].value,storedData,3)){
+              if(isUnique(formData[4].value,storedData,4)){
+                storedData.unshift(formData);
+                let newData = JSON.stringify(storedData);
+                localStorage.setItem(database,newData);
+                input.reset();
+                loadTable();
+              }
+              else{
+                alert("email ID already exists!")
+              }
+            }
+            else{
+              alert("Contact number already exists!")
+            }
+          }
+          else{
+            alert("A record already exists for the given  ID!")
+          }
+         
     }    
-    loadTable();
-    // window.scrollTo(0,0);
   }
 function loadTable(array){   
     var container = document.getElementById ("table1");
@@ -128,7 +161,6 @@ function loadTable(array){
     }
 }
 function editTable(index){  
-  
   let tableData = JSON.parse(localStorage.getItem(database));
   let submit = document.getElementById("submitButton");
   let currentRow = tableData[index];
@@ -140,8 +172,6 @@ function editTable(index){
   submit.onclick = function(){
       x = event.clientX;
       y = event.clientY;   
-      console.log(x)
-      console.log(y)   
       let status = updateTable(index);
       if(status){
         submit.setAttribute("onclick",null);
@@ -156,23 +186,38 @@ function updateTable(index){
   let formData = $(input).serializeArray();
   if(check(formData)){
     let tableData = JSON.parse(localStorage.getItem(database));
-    tableData[index]=formData;
-    input.reset();
-    let newData = JSON.stringify(tableData);
-    localStorage.setItem(database,newData);
-    return true;
+    let record = tableData.filter((val,i)=> i!== index )
+    if(isUnique(formData[0].value,record,0)){
+      if(isUnique(formData[3].value,record,3)){
+        if(isUnique(formData[4].value,record,4)){
+          tableData[index]=formData;
+          input.reset();
+          let newData = JSON.stringify(tableData);
+          localStorage.setItem(database,newData);
+          return true;
+        }
+        else{
+          alert("email ID already exists!")
+        }
+      }
+      else{
+        alert("Contact number already exists!")
+      }
+    }
+    else{
+      alert("A record already exists for the given  ID!")
+    }
+    
   }  
 }
-//To delete a row of given index
-function deleteRow(index){
+function deleteRow(index){//To delete a row of given index
   let tableData = JSON.parse(localStorage.getItem(database));
   tableData.splice(index,1);
   let newData = JSON.stringify(tableData);
   localStorage.setItem(database,newData);
   loadTable();
 }
-  //Sort each field in table by clicking on corresponding table heading
-function sortData(field,type){
+function sortData(field,type){  //Sort each field in table by clicking on corresponding table heading
     let tableData = JSON.parse(localStorage.getItem(database));
     let table_ids = ["idh","nameh","dobh","phoneh","emailh"];
     let table_head =  document.getElementById(table_ids[field]);
@@ -180,18 +225,15 @@ function sortData(field,type){
     let index = [];  
     let f = field.toString(); 
     let sortedData = null;
-    // alert(f)
     for(let i = 0;i<tableData.length;i++){
       data.push([tableData[i][field].value,i]);
     }
-    // console.log(isNaN(data[0][0]))
     if(isNaN(data[0][0])){
       sortedData = data.sort();
     }
     else{
       sortedData = data.sort(function(a, b){return a[0]-b[0]});
     }
-
     for( i =0;i<tableData.length;i++){
       index.push(sortedData[i][1]);
     }
