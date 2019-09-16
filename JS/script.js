@@ -111,11 +111,14 @@ function loadTable(array){
     var container = document.getElementById ("table1");
     container.innerHTML = '';
     let tableData = JSON.parse(localStorage.getItem(database));
+    // alert(tableData.length)
     if(tableData.length === 0 ){
-      document.getElementById ("main-table").style.display = "none";//hide the search output div
+      document.getElementById ("main-table").style.display = "none";//hide table
+      document.getElementById ("search-div").style.display = "none";//hide  search  div
     }
     else{
-      document.getElementById ("main-table").style.display = "revert";//hide the search output div
+      document.getElementById ("main-table").style.display = "revert";//show table
+      document.getElementById ("search-div").style.display = "block";//show search  div
       if(array !== undefined){
         tableData = array;   
       }
