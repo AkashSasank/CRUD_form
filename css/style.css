@@ -108,11 +108,7 @@ a{
     max-width: 50px;
     width: 50px;
   } */
-  /* tr:hover{
-    background-color: cadetblue;
-    transform: scale(1.01);
-    transition: 0.01s;
-  } */
+
   thead{
     background-color: antiquewhite;
   }
