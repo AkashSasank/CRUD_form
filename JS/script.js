@@ -7,6 +7,7 @@ function loadDatabase(entity){
   if(entity === 'student'){
     database = "student_data";
     // document.getElementById("cover-spin").style.display = "block";
+    document.body.style.backgroundImage = "url('./images/stud2.jpeg')"
     document.getElementById("id_label").innerHTML = "Student ID:";
     document.getElementById("form_name").innerHTML = "Student Portal"
     // document.getElementById("cover-spin").style.display = "none";
@@ -14,6 +15,7 @@ function loadDatabase(entity){
   else{
     database = "employee_data";
     // document.getElementById("cover-spin").style.display = "block";
+    document.body.style.backgroundImage = "url('./images/emp2.jpg')"
     document.getElementById("id_label").innerHTML = "Employee ID:";
     document.getElementById("form_name").innerHTML = "Employee Portal"
     // document.getElementById("cover-spin").style.display = "none";
@@ -112,12 +114,12 @@ function loadTable(array){
     container.innerHTML = '';
     let tableData = JSON.parse(localStorage.getItem(database));
     // alert(tableData.length)
-    if(tableData.length === 0 ){
+    if(tableData === null || tableData.length === 0 ){
       document.getElementById ("main-table").style.display = "none";//hide table
       document.getElementById ("search-div").style.display = "none";//hide  search  div
     }
-    else{
-      document.getElementById ("main-table").style.display = "revert";//show table
+    else if(tableData.length > 0){
+      document.getElementById ("main-table").style.display = "block";//show table
       document.getElementById ("search-div").style.display = "block";//show search  div
       if(array !== undefined){
         tableData = array;   
@@ -265,28 +267,29 @@ function sortData(field,type){  //Sort each field in table by clicking on corres
    localStorage.setItem(database,JSON.stringify(newData));
   }
 function searchTable() {
-    searchFlag = true;
     let input, filter, table, tr, td, i,j, txtValue;
     let index = [];
     input = document.getElementById("search");
-    // console.log(input.value);
     filter = input.value.toUpperCase();
     table = document.getElementById("table1");
     tr = table.getElementsByTagName("tr");
     for (i = 0; i < tr.length; i++) {
+      let status = false;
       for(j = 0;j<num_fields;j++){
       td = tr[i].getElementsByTagName("td")[j];     
-      if (td) {
-        txtValue = td.textContent || td.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) === -1) {
-          index.push(i);
+      txtValue = td.textContent || td.innerText;  
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        status = status||true;
+        } 
+      else {
           tr[i].style.display = "none";
-        } else {
-          tr[i].style.display = "";
-        }
-      }       
+        }    
+    }
+    if(status){
+      index.push(i);
     }
   }
+  index.forEach((val)=>{tr[val].style.display = "";})
 }
   
 

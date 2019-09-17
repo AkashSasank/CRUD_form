@@ -13,17 +13,15 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     </head>
-        <body onload="init()">
+        <body id="main" onload="init()">
             <header>
                     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin:5px 0;">
                             <div>
                                 <img src="./images/qb_logo.png" class="logo">
-                            </div>
-                            
+                            </div>                           
                             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
                               <span class="navbar-toggler-icon"></span>
-                            </button>
-                          
+                            </button>                        
                             <div class="collapse navbar-collapse" id="navb">
                               <ul class="navbar-nav mr-auto">
                                 <li class="nav-item pointer">
@@ -39,7 +37,6 @@
                             </div>
                           </nav>
             </header> 
-            <!-- <div id="cover-spin"></div> -->
             <section id ="portal">
               <div class="name">
                   <h1 id="form_name">Student Portal </h1>
@@ -86,7 +83,7 @@
                           </form>
                     </div>
                     
-                        <div  >
+                        <div class="table_div" >
                             <div   id = "main-table" >    
                                 <table  class="table  table-bordered ">
                                   <thead>
