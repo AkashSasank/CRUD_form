@@ -1,30 +1,34 @@
-var database = "student_data";//default database in local storage
+// var database = "student_data";//default database in local storage
+let database;
 const num_fields = 5;
-let searchFlag = false;// to know an ongoing seach operation
+let table_ids = ["idh","nameh","dobh","phoneh","emailh"];
 let x,y;
+function setDatabase(db){
+    sessionStorage.setItem("database", db); 
+}
 function loadDatabase(entity){
   document.getElementById("form_input").reset();
-  if(entity === 'student'){
-    database = "student_data";
-    // document.getElementById("cover-spin").style.display = "block";
+  database = entity;
+  if(entity === 'student_data'){
+    // database = "student_data";
     document.body.style.backgroundImage = "url('./images/stud2.jpeg')"
     document.getElementById("id_label").innerHTML = "Student ID:";
     document.getElementById("form_name").innerHTML = "Student Portal"
-    // document.getElementById("cover-spin").style.display = "none";
   }
   else{
-    database = "employee_data";
-    // document.getElementById("cover-spin").style.display = "block";
+    // database = "employee_data";
     document.body.style.backgroundImage = "url('./images/emp2.jpg')"
     document.getElementById("id_label").innerHTML = "Employee ID:";
     document.getElementById("form_name").innerHTML = "Employee Portal"
-    // document.getElementById("cover-spin").style.display = "none";
   }
   loadTable();
   return true;
 }
 function init(){
-  loadTable();//load table data from local storage
+  // loadDatabase(database);
+  database = sessionStorage.getItem("database");
+  loadDatabase(database);
+  // loadTable();//load table data from local storage
   document.getElementById("form_input").reset();
   document.getElementById("searchWindow").reset();
   }
@@ -67,13 +71,8 @@ function isUnique(value,data,field){
     if(val[field].value === value){
      status = status && false;
     }
-    // else{
-    //   return true;
-    // }  
   });
-  // alert(status)
   return status;
-
 }
 function readForm () {
     let input = document.getElementById("form_input");
@@ -105,15 +104,13 @@ function readForm () {
           }
           else{
             alert("A record already exists for the given  ID!")
-          }
-         
+          }      
     }    
   }
 function loadTable(array){   
     var container = document.getElementById ("table1");
     container.innerHTML = '';
     let tableData = JSON.parse(localStorage.getItem(database));
-    // alert(tableData.length)
     if(tableData === null || tableData.length === 0 ){
       document.getElementById ("main-table").style.display = "none";//hide table
       document.getElementById ("search-div").style.display = "none";//hide  search  div
@@ -211,8 +208,7 @@ function updateTable(index){
     }
     else{
       alert("A record already exists for the given  ID!")
-    }
-    
+    }  
   }  
 }
 function deleteRow(index){//To delete a row of given index
@@ -224,7 +220,6 @@ function deleteRow(index){//To delete a row of given index
 }
 function sortData(field,type){  //Sort each field in table by clicking on corresponding table heading
     let tableData = JSON.parse(localStorage.getItem(database));
-    let table_ids = ["idh","nameh","dobh","phoneh","emailh"];
     let table_head =  document.getElementById(table_ids[field]);
     let data = []; 
     let index = [];  
@@ -266,7 +261,7 @@ function sortData(field,type){  //Sort each field in table by clicking on corres
    loadTable(newData);
    localStorage.setItem(database,JSON.stringify(newData));
   }
-function searchTable() {
+function searchTable() {//search a given input in the table
     let input, filter, table, tr, td, i,j, txtValue;
     let index = [];
     input = document.getElementById("search");
@@ -291,7 +286,3 @@ function searchTable() {
   }
   index.forEach((val)=>{tr[val].style.display = "";})
 }
-  
-
- 
-

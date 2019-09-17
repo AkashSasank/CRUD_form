@@ -136,14 +136,12 @@ a{
     color: #ffffff;
 
   }
-  /* div.table {
+  footer {
+    clear: both;
     position: relative;
-    background-color: lightblue;
-    width: 100%;
-    height: auto;
-    overflow: auto;
-    cursor: pointer;
-  } */
+    margin-top: auto;
+    display: table-row;
+}
   .scroll {
     overflow:scroll;
     height:0px;
@@ -259,4 +257,24 @@ input {
   height: auto;
   background-color: azure 00;
   /* border: 1px solid #888; */
+}
+#home{
+  background-color: navy;
+}
+#home-div{
+  height: 300px;
+  margin: 10% 10%;
+}
+#home-div h1{
+  text-align: center;
+  color:white;
+  font-weight: bold;
+  font-size: 5vw;
+  /* height: 700px; */
+}
+.home-section{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 600px;
 }
