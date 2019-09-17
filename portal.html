@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>table</title>
+        <link href="css/reset.css" type="text/css" rel="stylesheet">
+        <link href="css/style.css" type="text/css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="./JS/script.js"></script>
+        <meta charset="UTF-8">
+        <meta name = "view-point" content=" width = device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    </head>
+        <body id="main" onload="init()">
+            <header>
+                    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin:5px 0;">
+                            <div>
+                                <img src="./images/qb_logo.png" class="logo">
+                            </div>                           
+                            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
+                              <span class="navbar-toggler-icon"></span>
+                            </button>                        
+                            <div class="collapse navbar-collapse" id="navb">
+                              <ul class="navbar-nav mr-auto">
+                                <li class="nav-item pointer">
+                                  <a class="nav-link" href="./index.html" target="_parent">Home</a>
+                                </li>
+                                <li class="nav-item pointer">
+                                  <a class="nav-link" onclick="loadDatabase('student_data')">Student Portal</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link pointer" onclick="loadDatabase('employee_data')">Employee Portal</a>
+                                </li>
+                            </ul> 
+                            </div>
+                          </nav>
+            </header> 
+            <section id ="portal">
+              <div class="name">
+                  <h1 id="form_name">Student Portal </h1>
+              </div>
+                    <div class="input_field" >
+                        <form id="form_input" action="">
+                          <div class = 'form-row space-between'>
+                            <div class="col-md-4">
+                              <div class ="form-group">
+                                  <label for="ID" id="id_label">Student ID:</label>
+                                  <input name="id" type="number" id="ID" >
+                              </div>
+                              <div class ="form-group">
+                                  <label for="name">Name:</label>
+                                  <input name="name" type="text" id="name" >  
+                              </div>
+                              <div class ="form-group">
+                                  <label for="dob">Date of Birth:</label>
+                                  <input name="dob" type="date" id="dob" class="pointer" >
+                              </div>                              
+                            </div> 
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                  <label for="phone">Phone No:</label>
+                                  <input name="phone" type="tel" id="phone" >
+                              </div> 
+                              <div class="form-group">
+                                  <label  for="Email">Email:</label>
+                                  <input name="email" type="email" id="Email">  
+                              </div>
+                              <div class="form-submit-button">
+                                  <input type="button" onclick="readForm()" value="Submit" id = "submitButton">
+                                  <input type="button" onclick="document.getElementById('form_input').reset()" value="Reset" id = "submitButton">
+                              </div>
+                            </div>
+                          </div>
+                       
+                          </div>
+                        </form>          
+                    </div> 
+                    <div id="search-div">
+                        <form class="form-inline my-2 my-lg-0 justify-right" id = "searchWindow">
+                            <input class="form-control mr-sm-2" type="text" placeholder="Search" id="search" onkeyup="searchTable()" >
+                          </form>
+                    </div>
+                    
+                        <div class="table_div" >
+                            <div   id = "main-table" >    
+                                <table  class="table  table-bordered ">
+                                  <thead>
+                                    <tr> 
+                                      <th>
+                                        <div class="row"onclick="sortData(0)" id="idh">
+                                            <h3>ID</h3>
+                                           
+                                                  <h3 class="glyphicon glyphicon-chevron-down"></h3>
+                                             
+                                        </div>
+                                        
+                                      </th>
+                                       <th>
+                                          <div class="row" onclick="sortData(1)" id="nameh">
+                                              <h3>Name</h3>
+                                             
+                                                      <h3 class="glyphicon glyphicon-chevron-down"></h3>
+                                                
+                                          </div>
+                                      </th>
+                                       <th>
+                                          <div class="row" onclick="sortData(2)" id="dobh">
+                                              <h3>DoB</h3>
+                                             
+                                                      <h3 class="glyphicon glyphicon-chevron-down"></h3>
+                                          
+                                          </div>
+                                      </th>
+                                       <th>
+                                          <div class="row" onclick="sortData(3)" id="phoneh">
+                                              <h3>Contact</h3>
+                           
+                                                      <h3 class="glyphicon glyphicon-chevron-down"></h3>
+                                              
+                                          </div>
+                                      </th>
+                                       <th>
+                                          <div class="row" onclick="sortData(4)" id="emailh">
+                                              <h3>Email</h3>
+                              
+                                                      <h3 class="glyphicon glyphicon-chevron-down"></h3>
+                                 
+                                          </div>
+                                      </th>
+                                      <th>
+                                          
+                                              <h3>Actions</h3>
+                                            
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody id="table1">
+                                  
+                                        
+                                     
+                                     
+                                  </tbody>
+                                 
+                                  
+                                     
+                                  
+                                     
+                                </table>
+                    </div>  
+                </div> 
+            </section>
+            <div class="back">
+                <a href="#"><h3 class="glyphicon glyphicon-circle-arrow-up"></h3> </a>
+            </div>
+           
+        </body>  
+        <footer>
+          
+            <div class="info">
+              <h5>Created by QBurst technologies</h5>
+            </div>
+  
+          </footer>  
+
+</html>
+
