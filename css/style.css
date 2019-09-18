@@ -1,3 +1,5 @@
+
+
 .logo{
   max-width: 200px;
 }
@@ -136,12 +138,12 @@ a{
     color: #ffffff;
 
   }
-  footer {
+  /* footer {
     clear: both;
     position: relative;
     margin-top: auto;
     display: table-row;
-}
+} */
   .scroll {
     overflow:scroll;
     height:0px;
@@ -170,16 +172,26 @@ a{
     width: 50%;
   }
   #form_input{
-    padding-right: 50px;
+    /* padding-right: 10px; */
+    width: 400px;
   }
   .name{
-    padding-top: 10px
+    padding-top: 10px;
   }
   .space-between{
     justify-content: space-between;
     margin: 10%;
-    width: 350px;
+    width: 450px;
     
+  }
+  div.input_field{
+    width: 50%;
+    margin: 2% 10% 2% 25%;
+    height: auto;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+    background-color: cadetblue;
   }
   .group{
     display: flex;
@@ -216,15 +228,7 @@ a{
     width: 50%;
     height: auto;
   }
-  div.input_field{
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: nowrap;
-    padding: 2%;
-    background-color: cadetblue;
-  }
+
 input {
   max-width: 150px;
 }
@@ -258,23 +262,106 @@ input {
   background-color: azure 00;
   /* border: 1px solid #888; */
 }
-#home{
-  background-color: navy;
-}
+
 #home-div{
-  height: 300px;
-  margin: 10% 10%;
+  height: 400px;
+  margin: 15% 10%;
 }
 #home-div h1{
   text-align: center;
   color:white;
   font-weight: bold;
-  font-size: 5vw;
+  font-size: 80px;
   /* height: 700px; */
 }
 .home-section{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 600px;
+  height: 610px;
+}
+@media only screen and (min-width: 1300px){ 
+  .name h1{
+    font-size: 80px;
+    margin-top: 5%
+  }
+  .table_div{
+    height: 600px;
+    width: 100%;
+    overflow: auto;
+  }
+  .info{
+    display: flex;
+    justify-content: space-around;
+    color: #ffffff;
+    background-color: crimson;
+    padding:20px 0px;
+  }
+  footer h5{
+    font-size: 30px;
+  }
+  #home-div{
+    height: 600px;
+    margin: 20% 20%;
+  }
+  #home-div h1{
+    text-align: center;
+    color:white;
+    font-weight: bold;
+    font-size: 110px;
+    /* height: 700px; */
+  }
+  .home-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 1100px;
+  }
+  #form_input{
+    padding-right: 50px;
+    font-size: 30px;
+    height: 500px;;
+  }
+  .space-between{
+    justify-content: space-between;
+    margin: 10% 20% 20% 20%;
+    width: 800px;
+    height: auto;
+    
+  }
+  .col-md-4{
+    height: 300px;
+    width: 300px;
+  }
+  .form-group{
+    width: 300px
+  }
+  input {
+    max-width: 250px;
+  }
+
+}
+@media only screen and (max-width:800px){
+  .form-group{
+    width: 100px
+  }
+  .space-between{
+    position:relative;
+    justify-content: space-between;
+    margin: 10% 20% 20% 20%;
+    width: 800px;
+    height: auto;
+    
+  }
+  .form-submit-button{
+    width: 150px;
+    display: flex;
+    justify-content:space-evenly;
+    margin: 1%;
+    flex-wrap: nowrap;
+    padding-left: 0%;
+  }
+  .col-md-4{
+    margin-left: 4%
+  }
 }
