@@ -26,8 +26,9 @@ function loadDatabase(entity){
   return true;
 }
 function init(){
-  debugger
   // loadDatabase(database);
+  document.getElementById ("main-table").style.display = "none";//hide table
+  document.getElementById ("search-div").style.display = "none";//hide  search  div
   database = sessionStorage.getItem("database");
   loadDatabase(database);
   // loadTable();//load table data from local storage
@@ -36,37 +37,43 @@ function init(){
   }
 
 function check(myform){
- if (myform[0].value == "" || myform[0].value == null)
+  var nameRegex = /^[a-zA-Z]+$/;
+  var emailRegex = /^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+([;.](([a-zA-Z0-9_\-\.]+)@{[a-zA-Z0-9_\-\.]+0\.([a-zA-Z]{2,5}){1,25})+)*$/;
+  var contactRegex = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
+
+  if ((myform[0].value == "" || myform[0].value == null)&&(myform[1].value == "" || myform[1].value == null)&&(myform[2].value == "" || myform[2].value == null)&&(myform[3].value == "" || myform[3].value == null)&&(myform[4].value == "" || myform[4].value == null))
+  {
+    alert("Enter the details before submitting");
+    return false;
+  }
+ else if (myform[0].value == "" || myform[0].value == null)
  {
    alert("Enter a valid ID");
    return false;
  }
- if (myform[1].value == "" || myform[1].value == null)
+ else if (myform[1].value == "" || myform[1].value == null)
  {
    alert("Name is mandatory");
    return false;
  }
- var nameRegex = /^[a-zA-Z]+$/;
- if (nameRegex.test(myform[1].value) === false)
+ else if (nameRegex.test(myform[1].value) === false)
  {
    alert("Enter a valid name");
    return false;
  }
- var emailRegex = /^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+([;.](([a-zA-Z0-9_\-\.]+)@{[a-zA-Z0-9_\-\.]+0\.([a-zA-Z]{2,5}){1,25})+)*$/;
- if ( emailRegex.test(myform[4].value)===false)
+ else if ( emailRegex.test(myform[4].value)===false)
  {
    alert("Enter a valid email");
    return false;
  }
- var contactRegex = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
- if(contactRegex.test(myform[3].value)===false){
+ else if(contactRegex.test(myform[3].value)===false){
   alert("Enter a valid contact number");
   return false;
  }
-    else{
-      return true;
-    }
+ else{
+  return true;
   }
+}
 function isUnique(value,data,field){
   let status =  true;
   data.forEach(val => {
@@ -222,12 +229,13 @@ function deleteRow(index){//To delete a row of given index
 }
 function sortData(field,type){  //Sort each field in table by clicking on corresponding table heading
     let tableData = JSON.parse(localStorage.getItem(database));
+    let l = tableData.length;
     let table_head =  document.getElementById(table_ids[field]);
     let data = []; 
     let index = [];  
     let f = field.toString(); 
     let sortedData = null;
-    for(let i = 0;i<tableData.length;i++){
+    for(let i = 0;i<l;i++){
       data.push([tableData[i][field].value,i]);
     }
     if(isNaN(data[0][0])){
@@ -236,12 +244,12 @@ function sortData(field,type){  //Sort each field in table by clicking on corres
     else{
       sortedData = data.sort(function(a, b){return a[0]-b[0]});
     }
-    for( i =0;i<tableData.length;i++){
+    for( i =0;i<l;i++){
       index.push(sortedData[i][1]);
     }
     let newData = [];
     if(type === 'ascending'){
-      for( i =0 ; i<tableData.length ; i++){
+      for( i =0 ; i<l ; i++){
         newData.push(tableData[index[i]]);
       }
      table_head.setAttribute("onclick",null);
@@ -249,7 +257,7 @@ function sortData(field,type){  //Sort each field in table by clicking on corres
      table_head.lastElementChild.setAttribute("class","glyphicon glyphicon-chevron-down");
     }
     else if(type === undefined){
-      for( i =0 ; i<tableData.length ; i++){
+      for( i =0 ; i<l ; i++){
         newData.unshift(tableData[index[i]]);
       } 
       table_head.setAttribute("onclick",null);
