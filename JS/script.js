@@ -26,6 +26,7 @@ function loadDatabase(entity){
   return true;
 }
 function init(){
+  debugger
   // loadDatabase(database);
   database = sessionStorage.getItem("database");
   loadDatabase(database);
