@@ -8,6 +8,7 @@ function setDatabase(db){
 }
 function loadDatabase(entity){
   document.getElementById("form_input").reset();
+  sessionStorage.setItem("database", entity);
   database = entity;
   if(entity === 'student_data'){
     // database = "student_data";
