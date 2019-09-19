@@ -1,8 +1,8 @@
-// var database = "student_data";//default database in local storage
 let database;
 const num_fields = 5;
 let table_ids = ["idh","nameh","dobh","phoneh","emailh"];
 let x,y;
+let searchFlag = false;
 function setDatabase(db){
     sessionStorage.setItem("database", db); 
 }
@@ -11,14 +11,12 @@ function loadDatabase(entity){
   sessionStorage.setItem("database", entity);
   database = entity;
   if(entity === 'student_data'){
-    // database = "student_data";
     document.body.style.backgroundImage = "url('./images/stud2.jpeg')"
     document.getElementById("id_label").innerHTML = "Student ID:";
     document.getElementById("form_name").innerHTML = "Student Portal"
   }
   else{
-    // database = "employee_data";
-    document.body.style.backgroundImage = "url('./images/emp2.jpg')"
+    document.body.style.backgroundImage = "url('./images/stud3.jpeg')"
     document.getElementById("id_label").innerHTML = "Employee ID:";
     document.getElementById("form_name").innerHTML = "Employee Portal"
   }
@@ -26,21 +24,17 @@ function loadDatabase(entity){
   return true;
 }
 function init(){
-  // loadDatabase(database);
   document.getElementById ("main-table").style.display = "none";//hide table
   document.getElementById ("search-div").style.display = "none";//hide  search  div
   database = sessionStorage.getItem("database");
   loadDatabase(database);
-  // loadTable();//load table data from local storage
   document.getElementById("form_input").reset();
   document.getElementById("searchWindow").reset();
   }
-
 function check(myform){
   var nameRegex = /^[a-zA-Z]+$/;
   var emailRegex = /^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+([;.](([a-zA-Z0-9_\-\.]+)@{[a-zA-Z0-9_\-\.]+0\.([a-zA-Z]{2,5}){1,25})+)*$/;
   var contactRegex = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
-
   if ((myform[0].value == "" || myform[0].value == null)&&(myform[1].value == "" || myform[1].value == null)&&(myform[2].value == "" || myform[2].value == null)&&(myform[3].value == "" || myform[3].value == null)&&(myform[4].value == "" || myform[4].value == null))
   {
     alert("Enter the details before submitting");
@@ -117,6 +111,7 @@ function readForm () {
     }    
   }
 function loadTable(array){   
+    document.getElementById("form_input").reset();
     var container = document.getElementById ("table1");
     container.innerHTML = '';
     let tableData = JSON.parse(localStorage.getItem(database));
@@ -160,7 +155,7 @@ function loadTable(array){
           del.onclick = function() {
             if(confirm("Data will be lost forever!! Do you wish to continue? ")){
                   deleteRow(employee);
-                  window.scrollTo(0,0);//scroll to form
+                  // window.scrollTo(0,0);//scroll to form
                 }
           }
           d.appendChild(edit);
@@ -228,6 +223,7 @@ function deleteRow(index){//To delete a row of given index
   loadTable();
 }
 function sortData(field,type){  //Sort each field in table by clicking on corresponding table heading
+  if(!searchFlag){
     let tableData = JSON.parse(localStorage.getItem(database));
     let l = tableData.length;
     let table_head =  document.getElementById(table_ids[field]);
@@ -271,28 +267,32 @@ function sortData(field,type){  //Sort each field in table by clicking on corres
    loadTable(newData);
    localStorage.setItem(database,JSON.stringify(newData));
   }
-function searchTable() {//search a given input in the table
+  }
+function searchTable() {//search a given input in the table  
     let input, filter, table, tr, td, i,j, txtValue;
     let index = [];
     input = document.getElementById("search");
+    let val = /^[a-zA-Z0-9\-]+$/
     filter = input.value.toUpperCase();
-    table = document.getElementById("table1");
-    tr = table.getElementsByTagName("tr");
-    for (i = 0; i < tr.length; i++) {
-      let status = false;
-      for(j = 0;j<num_fields;j++){
-      td = tr[i].getElementsByTagName("td")[j];     
-      txtValue = td.textContent || td.innerText;  
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        status = status||true;
-        } 
-      else {
-          tr[i].style.display = "none";
-        }    
+    if(val.test(filter)){
+      table = document.getElementById("table1");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        let status = false;
+        for(j = 0;j<num_fields;j++){
+        td = tr[i].getElementsByTagName("td")[j];     
+        txtValue = td.textContent || td.innerText;  
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          status = status||true;
+          } 
+        else {
+            tr[i].style.display = "none";
+          }    
+      }
+      if(status){
+        index.push(i);
+      }
     }
-    if(status){
-      index.push(i);
-    }
-  }
-  index.forEach((val)=>{tr[val].style.display = "";})
+    index.forEach((val)=>{tr[val].style.display = "";})
+    } 
 }
