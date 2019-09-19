@@ -3,6 +3,25 @@ const num_fields = 5;
 let table_ids = ["idh","nameh","dobh","phoneh","emailh"];
 let x,y;
 let searchFlag = false;
+
+// var inputBox = document.getElementsByTagName("input")
+
+// var invalidChars = [
+//   "-",
+//   "+",
+//   "e",
+// ];
+
+// inputBox.addEventListener("input", function() {
+//   this.value = this.value.replace(/[e\+\-]/gi, "");
+// });
+
+// inputBox.addEventListener("keydown", function(e) {
+//   if (invalidChars.includes(e.key)) {
+//     e.preventDefault();
+//   }
+// });
+
 function setDatabase(db){
     sessionStorage.setItem("database", db); 
 }
@@ -15,7 +34,7 @@ function loadDatabase(entity){
     document.getElementById("id_label").innerHTML = "Student ID:";
     document.getElementById("form_name").innerHTML = "Student Portal"
   }
-  else{
+  else if(entity === 'employee_data'){
     document.body.style.backgroundImage = "url('./images/stud3.jpeg')"
     document.getElementById("id_label").innerHTML = "Employee ID:";
     document.getElementById("form_name").innerHTML = "Employee Portal"
