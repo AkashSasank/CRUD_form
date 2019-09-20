@@ -1,27 +1,9 @@
 let database;
 const num_fields = 5;
 let table_ids = ["idh","nameh","dobh","phoneh","emailh"];
+let form_ids = ["ID","name","dob","phone","Email"];
 let x,y;
 let searchFlag = false;
-
-// var inputBox = document.getElementsByTagName("input")
-
-// var invalidChars = [
-//   "-",
-//   "+",
-//   "e",
-// ];
-
-// inputBox.addEventListener("input", function() {
-//   this.value = this.value.replace(/[e\+\-]/gi, "");
-// });
-
-// inputBox.addEventListener("keydown", function(e) {
-//   if (invalidChars.includes(e.key)) {
-//     e.preventDefault();
-//   }
-// });
-
 function setDatabase(db){
     sessionStorage.setItem("database", db); 
 }
@@ -54,38 +36,38 @@ function check(myform){
   var nameRegex = /^[a-zA-Z]+$/;
   var emailRegex = /^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+([;.](([a-zA-Z0-9_\-\.]+)@{[a-zA-Z0-9_\-\.]+0\.([a-zA-Z]{2,5}){1,25})+)*$/;
   var contactRegex = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
-  if ((myform[0].value == "" || myform[0].value == null)&&(myform[1].value == "" || myform[1].value == null)&&(myform[2].value == "" || myform[2].value == null)&&(myform[3].value == "" || myform[3].value == null)&&(myform[4].value == "" || myform[4].value == null))
-  {
+  myform.map((val)=>{  return (val.value == ""||val.value == null)})
+  if(myform.map((val)=>{ return (val.value == ""||val.value == null)}).every((val)=>{return val == true}) === true){
     alert("Enter the details before submitting");
     return false;
   }
- else if (myform[0].value == "" || myform[0].value == null)
- {
-   alert("Enter a valid ID");
-   return false;
- }
- else if (myform[1].value == "" || myform[1].value == null)
- {
-   alert("Name is mandatory");
-   return false;
- }
- else if (nameRegex.test(myform[1].value) === false)
- {
-   alert("Enter a valid name");
-   return false;
- }
- else if ( emailRegex.test(myform[4].value)===false)
- {
-   alert("Enter a valid email");
-   return false;
- }
- else if(contactRegex.test(myform[3].value)===false){
-  alert("Enter a valid contact number");
-  return false;
- }
- else{
-  return true;
+  else if (myform[0].value == "" || myform[0].value == null)
+  {
+    alert("Enter a valid ID");
+    return false;
   }
+  else if (myform[1].value == "" || myform[1].value == null)
+  {
+    alert("Name is mandatory");
+    return false;
+  }
+  else if (nameRegex.test(myform[1].value) === false)
+  {
+    alert("Enter a valid name");
+    return false;
+  }
+  else if ( emailRegex.test(myform[4].value)===false)
+  {
+    alert("Enter a valid email");
+    return false;
+  }
+  else if(contactRegex.test(myform[3].value)===false){
+    alert("Enter a valid contact number");
+    return false;
+  }
+  else{
+    return true;
+    }
 }
 function isUnique(value,data,field){
   let status =  true;
@@ -161,8 +143,8 @@ function loadTable(array){
           d.setAttribute("class","modal-cont");
           let del = document.createElement("button");
           let edit = document.createElement("button");
-          del.setAttribute("class","btn btn-warning");
-          edit.setAttribute("class","btn btn-danger");
+          del.setAttribute("class","btn btn-danger");
+          edit.setAttribute("class","btn btn-warning");
           edit.innerHTML = '<span class="glyphicon glyphicon-pencil">';
           del.innerHTML = '<span class="glyphicon glyphicon-trash">';
           edit.onclick = function() {
@@ -189,11 +171,7 @@ function editTable(index){
   let tableData = JSON.parse(localStorage.getItem(database));
   let submit = document.getElementById("submitButton");
   let currentRow = tableData[index];
-  document.getElementById("ID").value = currentRow[0].value;
-  document.getElementById("name").value = currentRow[1].value;
-  document.getElementById("dob").value = currentRow[2].value;
-  document.getElementById("phone").value = currentRow[3].value;
-  document.getElementById("Email").value = currentRow[4].value;
+  form_ids.forEach((val,i)=>{document.getElementById(val).value = currentRow[i].value;});
   submit.onclick = function(){
       x = event.clientX;
       y = event.clientY;   
@@ -203,8 +181,9 @@ function editTable(index){
         submit.setAttribute("onclick","readForm()");
         loadTable();
         window.scrollTo(x,y+200);//scroll back to row
+        document.getElementById("searchWindow").reset();
       }
-      };  
+      };      
 }
 function updateTable(index){
   let input = document.getElementById("form_input");

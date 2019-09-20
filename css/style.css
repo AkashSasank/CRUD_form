@@ -16,7 +16,7 @@ html {
 }
 body{
   background-image: url("../images/stud2.jpeg");
-  animation-duration: 2s;
+  /* animation-duration: 2s; */
   /* background-repeat: no-repeat; */
 }
 nav {
@@ -64,7 +64,7 @@ nav li{
   display: flex;
   justify-content: space-evenly;
   /* padding-right: 10%; */
-  
+  margin-bottom: 10%;
 }
 a{
   text-decoration: none;
@@ -73,6 +73,7 @@ a{
 }
 .info{
   display: flex;
+  position: relative;
   justify-content: space-around;
   color: #ffffff;
   background-color: crimson;
@@ -81,65 +82,37 @@ a{
 .revert{
   display:revert;
 }
-/* #main-table table{
-  width: 500px;
-  
-} */
-/* table{
-    border: 1px solid black;
-    border-collapse: collapse;
-    width: 100%;
-  } */
-  /* th{
-    border: 1px solid black;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  td{
-    border: 1px solid black;
-    max-width: 50px;
-    width: 50px;
-    text-align: center;
-  }
-  th{
-    padding: 5px;
-    text-align: left;
-    max-width: 50px;
-    width: 50px;
-  }
-  tr{
-    padding: 5px;
-    text-align: left;
-    max-width: 50px;
-    width: 50px;
-  } */
-
+/* 
   thead{
     background-color: antiquewhite;
-  }
+  } */
   td{
     font-size: 1.5vw;
     background-color: azure;
     word-wrap: wrap break-word;
     min-width: 100px;
   }
-  td:hover{
-    background-color: aquamarine;
+  /* td:hover{
+    background-color: aquamarine; */
     /* transform: scale(1.01);
     transition: 0.1s; */
 
-  }
+  /* } */
   th{
     cursor: pointer;
     min-width: 100px;
+    position: sticky;
+    background-color:#878799;
+    top: 0;
+    z-index: 5;
   }
   th h3{
     font-size: 30px;
   }
   th:hover{
-    transform: scale(1.001);
-    transition: 0.1s;
-    background-color: coral;
+    /* transform: scale(1.001); */
+    transition: 0.5s;
+    background-color: #5c5150;
     color: #ffffff;
 
   }
@@ -290,11 +263,21 @@ input {
   height: 610px;
 }
 footer{
-  position: static;
-  left: 0;
+  /* position: absolute; */
+  position: fixed;
+  /* left: 0; */
   bottom: 0;
   width: 100%;
+  z-index: 5;
 }
+ thead {
+  position: sticky;
+  /* position: sticky; */
+  top: 0;
+  z-index: 0;
+  /* background: #fff; */
+}
+
 #main-table{
   display: none;
 }
