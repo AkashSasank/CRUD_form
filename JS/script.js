@@ -292,5 +292,8 @@ function searchTable() {//search a given input in the table
       }
     }
     index.forEach((val)=>{tr[val].style.display = "";})
+    }
+    else{
+      loadTable();
     } 
 }

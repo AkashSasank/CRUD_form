@@ -270,6 +270,15 @@ footer{
   width: 100%;
   z-index: 5;
 }
+header{
+   /* position: absolute; */
+   position: sticky;
+   /* left: 0; */
+   top: 0;
+   width: 100%;
+   z-index: 6;
+ }
+
  thead {
   position: sticky;
   /* position: sticky; */
