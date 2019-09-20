@@ -270,16 +270,16 @@ function searchTable() {//search a given input in the table
     let input, filter, table, tr, td, i,j, txtValue;
     let index = [];
     input = document.getElementById("search");
-    let val = /^[a-zA-Z0-9\-]+$/
+    let val = /^[a-zA-Z0-9\-@]+$/;
     filter = input.value.toUpperCase();
-    if(val.test(filter)){
+    if(!(/^$/).test(filter)){
       table = document.getElementById("table1");
       tr = table.getElementsByTagName("tr");
       for (i = 0; i < tr.length; i++) {
         let status = false;
         for(j = 0;j<num_fields;j++){
         td = tr[i].getElementsByTagName("td")[j];     
-        txtValue = td.textContent || td.innerText;  
+        txtValue = (td.textContent || td.innerText).toString().slice(0,filter.length);        
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
           status = status||true;
           } 
@@ -293,7 +293,7 @@ function searchTable() {//search a given input in the table
     }
     index.forEach((val)=>{tr[val].style.display = "";})
     }
-    else{
+    else if((/^$/).test(filter)){
       loadTable();
     } 
 }
