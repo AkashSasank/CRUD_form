@@ -15,10 +15,6 @@ html {
   scroll-behavior: smooth;
 }
 body{
-  
-  transition: opacity 1s ease-in-out;
-  /* animation-duration: 2s; */
-  /* background-repeat: no-repeat; */
 }
 nav {
   margin: 5% 5%;
@@ -37,16 +33,9 @@ nav a{
 nav li{
   margin: 10px;
 }
-/* nav li:hover{
-  transform: scale(1.1);
-  transition: 0.5s;
-  max-width: 100%;
-} */
 #search-div{
     padding:30px 0px;
     display: block;
-    /* background-color: azure; */
-  
 }
 .justify-right{
   justify-content: right;
@@ -54,17 +43,14 @@ nav li{
 .justify-center{
   display: flex;
   justify-content: center;
-  /* flex-grow: 1; */
 }
 .space-around{
   display: flex;
   justify-content:space-around;
-  /* flex-grow: 1; */
 }
 .back{
   display: flex;
   justify-content: space-evenly;
-  /* padding-right: 10%; */
   margin-bottom: 10%;
 }
 a{
@@ -78,27 +64,16 @@ a{
   justify-content: space-around;
   color: #ffffff;
   background-color: crimson;
-  /* padding-bottom: 0px; */
 }
 .revert{
   display:revert;
 }
-/* 
-  thead{
-    background-color: antiquewhite;
-  } */
   td{
     font-size: 1.5vw;
     background-color: azure;
     word-wrap: wrap break-word;
     min-width: 100px;
   }
-  /* td:hover{
-    background-color: aquamarine; */
-    /* transform: scale(1.01);
-    transition: 0.1s; */
-
-  /* } */
   th{
     cursor: pointer;
     min-width: 100px;
@@ -111,30 +86,18 @@ a{
     font-size: 30px;
   }
   th:hover{
-    /* transform: scale(1.001); */
     transition: 0.5s;
     background-color: #5c5150;
     color: #ffffff;
 
   }
-  /* footer {
-    clear: both;
-    position: relative;
-    margin-top: auto;
-    display: table-row;
-} */
   .scroll {
     overflow:scroll;
     height:0px;
 }
   #portal{
     margin: 1% 10%;
-    /* animation: spin 2s linear infinite; */
   }
-  /* @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  } */
   #form_name {
     position: relative;
     text-align: center;
@@ -142,7 +105,7 @@ a{
     color: black;
     background-color: white;
     transform: translate(-50%, -50%);
-    mix-blend-mode: screen;
+    /* mix-blend-mode: screen; */
     top: 50%;
     left: 50%;
     /* margin: 0 auto; */
@@ -284,7 +247,7 @@ header{
   position: sticky;
   /* position: sticky; */
   top: 0;
-  z-index: 0;
+  z-index: 1;
   /* background: #fff; */
 }
 
