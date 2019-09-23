@@ -32,7 +32,7 @@ function init(){
   document.getElementById("form_input").reset();
   document.getElementById("searchWindow").reset();
   }
-function check(myform){
+function check(myform){//form validation
   var nameRegex = /^[a-zA-Z\s]+$/;
   var emailRegex = /^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+([;.](([a-zA-Z0-9_\-\.]+)@{[a-zA-Z0-9_\-\.]+0\.([a-zA-Z]{2,5}){1,25})+)*$/;
   var contactRegex = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
@@ -89,9 +89,9 @@ function readForm () {
         else{
           storedData = JSON.parse(localStorage.getItem(database)); 
         }
-          if(isUnique(formData[0].value,storedData,0)){
-            if(isUnique(formData[3].value,storedData,3)){
-              if(isUnique(formData[4].value,storedData,4)){
+          if(isUnique(formData[0].value,storedData,0)){//unique ID
+            if(isUnique(formData[3].value,storedData,3)){//unique phone
+              if(isUnique(formData[4].value,storedData,4)){//unique email
                 storedData.unshift(formData);
                 let newData = JSON.stringify(storedData);
                 localStorage.setItem(database,newData);
@@ -191,9 +191,9 @@ function updateTable(index){
   if(check(formData)){
     let tableData = JSON.parse(localStorage.getItem(database));
     let record = tableData.filter((val,i)=> i!== index )
-    if(isUnique(formData[0].value,record,0)){
-      if(isUnique(formData[3].value,record,3)){
-        if(isUnique(formData[4].value,record,4)){
+    if(isUnique(formData[0].value,record,0)){//unique ID
+      if(isUnique(formData[3].value,record,3)){//unique Phone
+        if(isUnique(formData[4].value,record,4)){//Unique Email
           tableData[index]=formData;
           input.reset();
           let newData = JSON.stringify(tableData);
@@ -266,10 +266,8 @@ function searchTable() {//search a given input in the table
     let input, filter, table, tr, td, i,j, txtValue;
     let index = [];
     input = document.getElementById("search");
-    // let val = /^[a-zA-Z0-9\-@]+$/;
     filter = input.value.toString().toUpperCase();
-    // if(!(/^$/).test(filter)){
-      while(filter.endsWith(" ")){//removes whitw spaces at end of filter
+      while(filter.endsWith(" ")){//removes white spaces at end of filter
         filter = filter.slice(0,filter.length-1)
       }
       table = document.getElementById("table1");
@@ -291,7 +289,6 @@ function searchTable() {//search a given input in the table
       }
     }
     index.forEach((val)=>{tr[val].style.display = "";})
-    // }
     if((/^\s+$/).test(filter)){
       loadTable();
     } 
