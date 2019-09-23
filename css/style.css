@@ -15,7 +15,8 @@ html {
   scroll-behavior: smooth;
 }
 body{
-  background-image: url("../images/stud2.jpeg");
+  
+  transition: opacity 1s ease-in-out;
   /* animation-duration: 2s; */
   /* background-repeat: no-repeat; */
 }
@@ -182,7 +183,7 @@ a{
   .form-submit-button{
     display: flex;
     justify-content:space-evenly;
-    margin: 15%;
+    margin: 30%;
     flex-wrap: nowrap;
     padding-left: 30%;
   }

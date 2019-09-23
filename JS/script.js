@@ -1,7 +1,7 @@
 let database;
-const num_fields = 5;
 let table_ids = ["idh","nameh","dobh","phoneh","emailh"];
 let form_ids = ["ID","name","dob","phone","Email"];
+const num_fields = form_ids.length;
 let x,y;
 let searchFlag = false;
 function setDatabase(db){
@@ -33,7 +33,7 @@ function init(){
   document.getElementById("searchWindow").reset();
   }
 function check(myform){
-  var nameRegex = /^[a-zA-Z]+$/;
+  var nameRegex = /^[a-zA-Z\s]+$/;
   var emailRegex = /^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+([;.](([a-zA-Z0-9_\-\.]+)@{[a-zA-Z0-9_\-\.]+0\.([a-zA-Z]{2,5}){1,25})+)*$/;
   var contactRegex = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
   myform.map((val)=>{  return (val.value == ""||val.value == null)})
@@ -127,8 +127,8 @@ function loadTable(array){
         tableData = array;   
       }
       if (tableData!== null){
-        for(let employee = 0;employee < tableData.length;employee++){
-          const data = tableData[employee];
+        for(let individual = 0;individual < tableData.length;individual++){
+          const data = tableData[individual];
           let row = document.createElement('tr');
           let newRow = container.appendChild(row);
           for(let i =0;i<num_fields ;i++){
@@ -150,12 +150,12 @@ function loadTable(array){
           edit.onclick = function() {
             if(confirm("Do you wish to continue?")){
                 window.scrollTo(0,0);//scroll to form
-                editTable(employee);
+                editTable(individual);
               }
           }            
           del.onclick = function() {
             if(confirm("Data will be lost forever!! Do you wish to continue? ")){
-                  deleteRow(employee);
+                  deleteRow(individual);
                   // window.scrollTo(0,0);//scroll to form
                 }
           }
@@ -258,10 +258,6 @@ function sortData(field,type){  //Sort each field in table by clicking on corres
       table_head.setAttribute("onclick","sortData("+f+",'ascending')");
       table_head.lastElementChild.setAttribute("class","glyphicon glyphicon-chevron-up");
     }
-    else{
-      document.getElementById(table_ids[field]).setAttribute("onclick",null);
-      document.getElementById(table_ids[field]).setAttribute("onclick","sortData("+f+")");
-    }
    loadTable(newData);
    localStorage.setItem(database,JSON.stringify(newData));
   }
@@ -270,9 +266,12 @@ function searchTable() {//search a given input in the table
     let input, filter, table, tr, td, i,j, txtValue;
     let index = [];
     input = document.getElementById("search");
-    let val = /^[a-zA-Z0-9\-@]+$/;
-    filter = input.value.toUpperCase();
-    if(!(/^$/).test(filter)){
+    // let val = /^[a-zA-Z0-9\-@]+$/;
+    filter = input.value.toString().toUpperCase();
+    // if(!(/^$/).test(filter)){
+      while(filter.endsWith(" ")){//removes whitw spaces at end of filter
+        filter = filter.slice(0,filter.length-1)
+      }
       table = document.getElementById("table1");
       tr = table.getElementsByTagName("tr");
       for (i = 0; i < tr.length; i++) {
@@ -292,8 +291,8 @@ function searchTable() {//search a given input in the table
       }
     }
     index.forEach((val)=>{tr[val].style.display = "";})
-    }
-    else if((/^$/).test(filter)){
+    // }
+    if((/^\s+$/).test(filter)){
       loadTable();
     } 
 }
