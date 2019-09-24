@@ -41,7 +41,7 @@ function check(myform){//form validation
     alert("Enter the details before submitting");
     return false;
   }
-  else if (myform[0].value == "" || myform[0].value == null)//validation for ID
+  else if (myform[0].value == "" || myform[0].value == null || myform[0].value < 0)//validation for ID
   {
     alert("Enter a valid ID");
     return false;
