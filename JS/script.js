@@ -1,33 +1,33 @@
 let database;
-let table_ids = ["idh","nameh","dobh","phoneh","emailh"];
-let form_ids = ["ID","name","dob","phone","Email"];
+let table_ids = ["idh","nameh","dobh","phoneh","emailh"];//id of table heads
+let form_ids = ["ID","name","dob","phone","Email"];//id of form elements
 const num_fields = form_ids.length;
 let x,y;
-let searchFlag = false;
-function setDatabase(db){
-    sessionStorage.setItem("database", db); 
+// let searchFlag = false;
+function setDatabase(db){//to store the value of database variable while navigating from home page to form page
+    localStorage.setItem("database", db); 
 }
-function loadDatabase(entity){
+function loadDatabase(entity){//To navigate between student and emplyee forms 
   document.getElementById("form_input").reset();
-  sessionStorage.setItem("database", entity);
+  localStorage.setItem("database", entity);
   database = entity;
-  if(entity === 'student_data'){
+  if(entity === 'student_data'){//check if student portal is chosen
     document.body.style.backgroundImage = "url('./images/stud2.jpeg')"
     document.getElementById("id_label").innerHTML = "Student ID:";
     document.getElementById("form_name").innerHTML = "Student Portal"
   }
-  else if(entity === 'employee_data'){
+  else if(entity === 'employee_data'){//check if employee portal is chosen
     document.body.style.backgroundImage = "url('./images/stud3.jpeg')"
     document.getElementById("id_label").innerHTML = "Employee ID:";
     document.getElementById("form_name").innerHTML = "Employee Portal"
   }
-  loadTable();
-  return true;
+  loadTable();//load the table from "database"
+  // return true;
 }
-function init(){
+function init(){//initialization functions on page loading
   document.getElementById ("main-table").style.display = "none";//hide table
   document.getElementById ("search-div").style.display = "none";//hide  search  div
-  database = sessionStorage.getItem("database");
+  database = localStorage.getItem("database");
   loadDatabase(database);
   document.getElementById("form_input").reset();
   document.getElementById("searchWindow").reset();
@@ -41,27 +41,27 @@ function check(myform){//form validation
     alert("Enter the details before submitting");
     return false;
   }
-  else if (myform[0].value == "" || myform[0].value == null)
+  else if (myform[0].value == "" || myform[0].value == null)//validation for ID
   {
     alert("Enter a valid ID");
     return false;
   }
-  else if (myform[1].value == "" || myform[1].value == null)
+  else if (myform[1].value == "" || myform[1].value == null)//validation for empty name
   {
     alert("Name is mandatory");
     return false;
   }
-  else if (nameRegex.test(myform[1].value) === false)
+  else if (nameRegex.test(myform[1].value) === false)//validation for name format
   {
     alert("Enter a valid name");
     return false;
   }
-  else if ( emailRegex.test(myform[4].value)===false)
+  else if ( emailRegex.test(myform[4].value)===false)//validation for email
   {
     alert("Enter a valid email");
     return false;
   }
-  else if(contactRegex.test(myform[3].value)===false){
+  else if(contactRegex.test(myform[3].value)===false){//validation for contact number - 10 digit
     alert("Enter a valid contact number");
     return false;
   }
@@ -69,7 +69,7 @@ function check(myform){//form validation
     return true;
     }
 }
-function isUnique(value,data,field){
+function isUnique(value,data,field){//check if an entry is unique, value - input, data - the entire table data, field - the input field
   let status =  true;
   data.forEach(val => {
     if(val[field].value === value){
@@ -78,17 +78,17 @@ function isUnique(value,data,field){
   });
   return status;
 }
-function readForm () {
+function readForm () {//read data from the form elements
     let input = document.getElementById("form_input");
     let formData = $(input).serializeArray();
-    if(check(formData)){
+    if(check(formData)){//validation
         let storedData = null;
-        if(localStorage.getItem(database) === null){
+        if(localStorage.getItem(database) === null){//check if there is an existing data in local storage
           storedData = [];
         }
         else{
           storedData = JSON.parse(localStorage.getItem(database)); 
-        }
+        }//check for uniqueness
           if(isUnique(formData[0].value,storedData,0)){//unique ID
             if(isUnique(formData[3].value,storedData,3)){//unique phone
               if(isUnique(formData[4].value,storedData,4)){//unique email
@@ -111,29 +111,29 @@ function readForm () {
           }      
     }    
   }
-function loadTable(array){   
-    document.getElementById("form_input").reset();
+function loadTable(array){//load the data to table, array - input array tobe loaded, if array is undefined data from local storage is loaded  
+    document.getElementById("form_input").reset();// data is pointed by database variable
     var container = document.getElementById ("table1");
     container.innerHTML = '';
     let tableData = JSON.parse(localStorage.getItem(database));
-    if(tableData === null || tableData.length === 0 ){
+    if(tableData === null || tableData.length === 0 ){// check if there is a stored data
       document.getElementById ("main-table").style.display = "none";//hide table
       document.getElementById ("search-div").style.display = "none";//hide  search  div
     }
-    else if(tableData.length > 0){
+    else if(tableData.length > 0){// a stored data exists
       document.getElementById ("main-table").style.display = "block";//show table
       document.getElementById ("search-div").style.display = "block";//show search  div
-      if(array !== undefined){
+      if(array !== undefined){//assign tableData as array in case an array is passed
         tableData = array;   
       }
-      if (tableData!== null){
-        for(let individual = 0;individual < tableData.length;individual++){
-          const data = tableData[individual];
+      if (tableData!== null){//check is table data have any values
+        for(let individual = 0;individual < tableData.length;individual++){// for every individual record construct a 
+          const data = tableData[individual];//row and corresponding operations(edit, delete)
           let row = document.createElement('tr');
           let newRow = container.appendChild(row);
           for(let i =0;i<num_fields ;i++){
             let col =  document.createElement('td');
-            if(!isNaN(data[i].value)||!isNaN(data[i].value.split("-")[0])){
+            if(!isNaN(data[i].value)||!isNaN(data[i].value.split("-")[0])){//text and number formatting
               col.style.textAlign = "right";
             }
             newRow.appendChild(col).innerHTML= data[i].value;
@@ -141,8 +141,8 @@ function loadTable(array){
           let col =  document.createElement('td');
           let d = document.createElement("div");
           d.setAttribute("class","modal-cont");
-          let del = document.createElement("button");
-          let edit = document.createElement("button");
+          let del = document.createElement("button");//delete button
+          let edit = document.createElement("button");//edit button
           del.setAttribute("class","btn btn-danger");
           edit.setAttribute("class","btn btn-warning");
           edit.innerHTML = '<span class="glyphicon glyphicon-pencil">';
@@ -167,15 +167,15 @@ function loadTable(array){
       }
     }
 }
-function editTable(index){  
+function editTable(index){// edit row of pointed by index
   let tableData = JSON.parse(localStorage.getItem(database));
   let submit = document.getElementById("submitButton");
   let currentRow = tableData[index];
-  form_ids.forEach((val,i)=>{document.getElementById(val).value = currentRow[i].value;});
+  form_ids.forEach((val,i)=>{document.getElementById(val).value = currentRow[i].value;});//enter row details back to form
   submit.onclick = function(){
       x = event.clientX;
       y = event.clientY;   
-      let status = updateTable(index);
+      let status = updateTable(index);//update row pointed by index
       if(status){
         submit.setAttribute("onclick",null);
         submit.setAttribute("onclick","readForm()");
@@ -185,10 +185,10 @@ function editTable(index){
       }
       };      
 }
-function updateTable(index){
+function updateTable(index){//update row pointed by index
   let input = document.getElementById("form_input");
   let formData = $(input).serializeArray();
-  if(check(formData)){
+  if(check(formData)){//validation
     let tableData = JSON.parse(localStorage.getItem(database));
     let record = tableData.filter((val,i)=> i!== index )
     if(isUnique(formData[0].value,record,0)){//unique ID
@@ -198,30 +198,33 @@ function updateTable(index){
           input.reset();
           let newData = JSON.stringify(tableData);
           localStorage.setItem(database,newData);
-          return true;
+          return true;//return true if all conditions for uniqueness are satisfied
         }
         else{
           alert("email ID already exists!")
+          return false;
         }
       }
       else{
         alert("Contact number already exists!")
+        return false;
       }
     }
     else{
       alert("A record already exists for the given  ID!")
+      return false;
     }  
   }  
 }
 function deleteRow(index){//To delete a row of given index
   let tableData = JSON.parse(localStorage.getItem(database));
-  tableData.splice(index,1);
+  tableData.splice(index,1);//remove the row pointed by index
   let newData = JSON.stringify(tableData);
   localStorage.setItem(database,newData);
   loadTable();
 }
 function sortData(field,type){  //Sort each field in table by clicking on corresponding table heading
-  if(!searchFlag){
+  // if(!searchFlag){
     let tableData = JSON.parse(localStorage.getItem(database));
     let l = tableData.length;
     let table_head =  document.getElementById(table_ids[field]);
@@ -233,10 +236,10 @@ function sortData(field,type){  //Sort each field in table by clicking on corres
       data.push([tableData[i][field].value,i]);
     }
     if(isNaN(data[0][0])){
-      sortedData = data.sort();
+      sortedData = data.sort();//sorting strings
     }
     else{
-      sortedData = data.sort(function(a, b){return a[0]-b[0]});
+      sortedData = data.sort(function(a, b){return a[0]-b[0]});//sorting numbers
     }
     for( i =0;i<l;i++){
       index.push(sortedData[i][1]);
@@ -247,10 +250,10 @@ function sortData(field,type){  //Sort each field in table by clicking on corres
         newData.push(tableData[index[i]]);
       }
      table_head.setAttribute("onclick",null);
-     table_head.setAttribute("onclick","sortData("+f+")");
+     table_head.setAttribute("onclick","sortData("+f+",'descending')");
      table_head.lastElementChild.setAttribute("class","glyphicon glyphicon-chevron-down");
     }
-    else if(type === undefined){
+    else if(type === 'descending'){
       for( i =0 ; i<l ; i++){
         newData.unshift(tableData[index[i]]);
       } 
@@ -260,7 +263,7 @@ function sortData(field,type){  //Sort each field in table by clicking on corres
     }
    loadTable(newData);
    localStorage.setItem(database,JSON.stringify(newData));
-  }
+  // }
   }
 function searchTable() {//search a given input in the table  
     let input, filter, table, tr, td, i,j, txtValue;
@@ -289,7 +292,7 @@ function searchTable() {//search a given input in the table
       }
     }
     index.forEach((val)=>{tr[val].style.display = "";})
-    if((/^\s+$/).test(filter)){
+    if((/^\s+$/).test(filter)){//no action for space bar, simply load the tables
       loadTable();
     } 
 }
